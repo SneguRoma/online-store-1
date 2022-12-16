@@ -1,4 +1,4 @@
-import { IStock } from "../interfases";
+import { IStock } from "../interfaсes";
 
 export const products: IStock = {  
     products:  [
