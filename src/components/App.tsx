@@ -1,5 +1,11 @@
+import React from 'react';
+import { Found } from "./Found"
+
 const App: React.FC = () => {
-  return <div></div>
+  return <div>
+    <Found/>
+
+  </div>
 }
 
 export {App}
