@@ -11,10 +11,3 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
 }
-
-export interface IStock {
-  products: IProduct[];
-  total: number;
-  skip: number;
-  limit: number;
-}

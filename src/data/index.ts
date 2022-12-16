@@ -1,7 +1,6 @@
-import { IStock } from "../interfaсes";
+import { IProduct } from "../interfaсes";
 
-export const products: IStock = {  
-    products:  [
+export const products: IProduct[] = [  
     {
     id: 1,
     title: "iPhone 9",
@@ -1841,8 +1840,4 @@ export const products: IStock = {
     "https://i.dummyjson.com/data/products/100/thumbnail.jpg"
     ]
     }
-    ],
-    total: 100,
-    skip: 0,
-    limit: 100
-  }
+  ]
