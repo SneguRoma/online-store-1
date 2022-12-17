@@ -3,7 +3,7 @@ import { Product } from "./product-card"
 
 const App: React.FC = () => {
   return <div>
-    <Product product = { products[0] }/>
+    <Product product = { products[1] }/>
   </div>
 }
 
