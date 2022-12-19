@@ -31,9 +31,14 @@ export function Product (props: ProductProps) {
               <img src={ src } alt="" className="picture__main"/>
             </div>
             <div className="card__pictures__thumbnails">
-              {props.product.images.filter((e, index)=> index < 3).map(item=> <div className="card__pictures_thumbnail"><img src={ item } alt="" className="pictures__thumbnail" onClick={handleClick}/></div>)}
+              {
+                props.product.images.filter((e, index)=>
+                index < props.product.images.length - 2).map((item, idx)=> 
+                  <div className="card__pictures_thumbnail" key={idx}>
+                    <img src={ item } alt="" className="pictures__thumbnail" onClick={handleClick}/>
+                  </div>)
+              }
             </div>
-            
           </div>
           <div className="card__info">
             <h2 className='card__title'>{ props.product.title }</h2>
