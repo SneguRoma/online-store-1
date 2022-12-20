@@ -18,6 +18,7 @@ export function ProductElement({product}: ProductProps){
           <li className="product_info_item"><strong>Rating:  </strong> {product.rating}</li>
           <li className="product_info_item"><strong>Title:  </strong>{product.title}</li>
           <li className="product_info_item"><strong>Price:  </strong>{product.price} $</li>
+          <li className="product_info_item"><strong>Discount:  </strong>{product.discountPercentage} $</li>
         </ul>
       </div>
     </div>
