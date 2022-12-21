@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IProduct } from "../../interfaсes"
+import Button from "../UI/button/Button";
 import './index.css';
 
 interface ProductProps {
@@ -33,7 +34,7 @@ export function Product (props: ProductProps) {
             <div className="card__pictures__thumbnails">
               {
                 props.product.images.filter((e, index)=>
-                index < props.product.images.length - 2).map((item, idx)=> 
+                index < props.product.images.length - 1).map((item, idx)=> 
                   <div className="card__pictures_thumbnail" key={idx}>
                     <img src={ item } alt="" className="pictures__thumbnail" onClick={handleClick}/>
                   </div>)
@@ -53,8 +54,8 @@ export function Product (props: ProductProps) {
             <p className="description">{ props.product.description }</p>
             <span className="category__title">Category: { props.product.category }</span>
             <div className="card__buttons">
-              <button className="card__button button__add">Add to Cart</button>
-              <button className="card__button button__buy">Buy Now</button>
+              <Button className="button__add">Add to Cart</Button>
+              <Button className="button__buy" style={{ backgroundColor: "#FF8F3C"}}>Buy Now</Button>
             </div> 
           </div>
         </form>

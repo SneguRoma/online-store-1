@@ -1,0 +1,26 @@
+.button{
+  position: relative;
+  width: 100%;
+  text-align: center;
+  display: block;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 6px;
+  font-size: var(--font-size-b1);
+  line-height: var(--line-height-b1);
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  padding: 16px 38px;
+  border: transparent;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.button:hover{
+  top: 1px;
+  filter: brightness(0.9);
+}
+
+.button__buy{
+  background-color: var(--color-warning);
+}

@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.20"
+    "postcss": "^8.4.20",
+    "typescript-plugin-css-modules": "^4.1.1"
   }
 }
