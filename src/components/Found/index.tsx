@@ -4,6 +4,7 @@ import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { MySelect } from '../MySelect';
 import { ItemList } from '../ItemList';
+import { Filters } from '../Filters';
 import './index.css';
 
 export function Found() {  
@@ -11,9 +12,11 @@ export function Found() {
     const [foundProducts, setProducts] = useState(products);
     const [selectSort, setSelectSort] = useState('');
     const [search, setSearch] = useState('');
+    const [filter, setFilter]=useState({category: '', checked: true, categoryArr: [] });
+    let hui: string[] = [];
+
     const sortedItem = useMemo(() => {
-      if(selectSort ) {
-        /* return ([...foundProducts].sort((a, b) => a[selectSort] > b[selectSort] ? 1 : -1)) */
+      if(selectSort ) {        
         if (selectSort =='titleup') {          
           return ([...foundProducts].sort((a, b) => a['title'] > b['title'] ? 1 : -1))
         }
@@ -36,8 +39,9 @@ export function Found() {
       else return products;
     },
     [selectSort, products]);
-
+    
     const sortedAndSearchedItem = useMemo(() => {
+      console.log(filter);
       if(sortedItem)
       return sortedItem.filter(item => 
         item.title.toLowerCase().includes(search) || 
@@ -46,6 +50,19 @@ export function Found() {
         item.price.toString().toLowerCase().includes(search)||
         item.rating.toString().toLowerCase().includes(search))
     }, [search, sortedItem]);
+
+    const sortedSearchedAndFilteredItem = useMemo(() => {
+      if(sortedAndSearchedItem){
+      console.log(filter.categoryArr);
+      hui.push(filter.category);
+      console.log(hui);
+      return sortedAndSearchedItem.filter(item => item.category.includes(filter.category)) ;
+      }
+
+      
+    }, [filter, sortedAndSearchedItem]);
+      
+    
 
     const sortItem = (sort: string) => {
       setSelectSort(sort);     
@@ -61,10 +78,7 @@ export function Found() {
            />
 
            <hr style={{margin: '15px'}}/>
-           { (sortedAndSearchedItem !== undefined &&  sortedAndSearchedItem.length) ? 
-           <h2 className="emty-found">found items </h2> : 
-           <h2 className="emty-found"> No products found</h2>}        
-          
+           
           <MySelect 
             value={selectSort}
             onChange={sortItem} 
@@ -80,8 +94,13 @@ export function Found() {
           />        
         </div>
 
+        <Filters
+        filter={filter}
+        setFilter = {setFilter}
+        />
+
         <hr style={{margin: '15px'}}/>
-        <ItemList items = {sortedAndSearchedItem as IProduct[]}/>
+        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}/>
           
   
             
