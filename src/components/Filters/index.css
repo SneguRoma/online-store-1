@@ -1,0 +1,12 @@
+.filters{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 200px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.my-checkbox{
+  overflow: hidden;
+  overflow-y: auto;
+}

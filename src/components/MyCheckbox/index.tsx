@@ -1,4 +1,6 @@
 import React from 'react'
+import './index.css';
+
 
 
 interface checkBoxProps {
@@ -12,7 +14,7 @@ interface checkBoxProps {
 function MyCheckbox({item,value, onChange}: checkBoxProps) {  
 
   return (
-    <div>
+    <div className='my-checkbox'>
       <input type="checkbox" id={item} name={item}  onChange={event => onChange(event.target.checked, item)}   />
       <label htmlFor={item}>{item}</label>
     </div>

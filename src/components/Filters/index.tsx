@@ -2,7 +2,7 @@
 import MyCheckbox from '../MyCheckbox'
 import { products } from '../../data';
 import React, { useMemo,  useState} from 'react';
-/* import { arr } from '../context'; */
+import './index.css'; 
 
 interface filterProps {  
   filter: Ifilter
@@ -10,38 +10,57 @@ interface filterProps {
 }
 interface Ifilter {  
   category: string
-  checked: boolean
-  categoryArr: string[]
-    
+  checked: boolean 
+  brand: string 
+  checkBrand: boolean   
 }
 
+let categories: Set<string> = new Set();
+let categoriesArr = Array();
+if (categories.size == 0) {
+    for (let i of products){
+      categories.add(i.category);
+    }
+    categoriesArr = Array.from(categories);
+  }
 
+let brands: Set<string> = new Set();
+let brandsArr = Array();
+if (brands.size == 0) {
+  for (let i of products){
+    brands.add(i.brand);
+  }
+  brandsArr = Array.from(brands);
+}    
 
 export const Filters = ({filter, setFilter}: filterProps)  => {
-  let categories: Set<string> = new Set();
-  const [selectCategory, setselectCategory] = useState('');
-  let filterArr = [];
-  
-  for (let i of products){
-    categories.add(i.category);
-  }
-  let categoryArr = Array.from(categories);
-  
-  const checked = (check: boolean, item: string, categoryArr: string[]) => {
+  /* console.log('filters', categories); */  
+  const checkedCategory = (check: boolean, item: string) => {
       /* arr.push( item); */
-       setFilter({category: item , check: check,categoryArr: item})
-        
-      
+       setFilter({category: item , checked: check})     
   }
-
+  const checkedBrand = (check: boolean, item: string) => {
+    /* arr.push( item); */
+     setFilter({brand: item , checkBrand: check})     
+}
 
   return (
-    <div>
-      <fieldset>
+    <div className='filters'>
+      <fieldset className='my-checkbox' >
         <legend>Choose your filters:</legend>
-        {categoryArr.map((category: string, index: number) => 
-          <MyCheckbox item={categoryArr[index]} key = {index} onChange={checked} value = {categoryArr[index]} />)}
-        
+        {categoriesArr.map((category: string, index: number) => 
+          <MyCheckbox 
+            item={categoriesArr[index]}
+            key = {index} onChange={checkedCategory}
+            value = {categoriesArr[index]} />)}
+      </fieldset>
+      <fieldset className='my-checkbox'>
+         <legend>Choose your filters:</legend>
+        {categoriesArr.map((brand: string, index: number) => 
+          <MyCheckbox
+            item={brandsArr[index]}
+            key = {index} onChange={checkedBrand}
+            value = {brandsArr[index]} />)}
       </fieldset>
       <div>
         <input type="range" id="volume" name="volume" min="0" max="11" step="1"/>

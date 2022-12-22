@@ -1,5 +1,6 @@
 import React from 'react'
 import { IProduct } from '../../interfaсes'
+import './index.css'; 
 
 interface ProductOpts {
   value: string,

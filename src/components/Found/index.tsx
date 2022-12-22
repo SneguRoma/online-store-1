@@ -7,13 +7,19 @@ import { ItemList } from '../ItemList';
 import { Filters } from '../Filters';
 import './index.css';
 
+let categorySet: Set<string> = new Set();
+let categoryArray: string[] = []; 
+let brandSet: Set<string> = new Set();
+let brandArray: string[] = []; 
+
+
 export function Found() {  
   
     const [foundProducts, setProducts] = useState(products);
     const [selectSort, setSelectSort] = useState('');
     const [search, setSearch] = useState('');
-    const [filter, setFilter]=useState({category: '', checked: true, categoryArr: [] });
-    let hui: string[] = [];
+    const [filter, setFilter]=useState({category: '', checked: true ,brand: '' , checkBrand: true });
+    
 
     const sortedItem = useMemo(() => {
       if(selectSort ) {        
@@ -41,7 +47,7 @@ export function Found() {
     [selectSort, products]);
     
     const sortedAndSearchedItem = useMemo(() => {
-      console.log(filter);
+      /* console.log(filter); */
       if(sortedItem)
       return sortedItem.filter(item => 
         item.title.toLowerCase().includes(search) || 
@@ -53,10 +59,31 @@ export function Found() {
 
     const sortedSearchedAndFilteredItem = useMemo(() => {
       if(sortedAndSearchedItem){
-      console.log(filter.categoryArr);
-      hui.push(filter.category);
-      console.log(hui);
-      return sortedAndSearchedItem.filter(item => item.category.includes(filter.category)) ;
+      if (filter.category !== ''){
+       if(filter.checked) categorySet.add(filter.category);
+       else categorySet.delete(filter.category);
+       console.log('set of categ',categorySet);
+      } 
+        categoryArray = Array.from(categorySet)
+      console.log('filtr:' ,filter);      
+      console.log('array of categ',categoryArray);
+
+      if (filter.brand !== ''){
+        if(filter.checkBrand) brandSet.add(filter.brand);
+        else brandSet.delete(filter.brand);
+        console.log('set of brand',brandSet);
+       } 
+         brandArray = Array.from(brandSet);
+       console.log('filtr:' ,filter);
+       
+       console.log('array of brand',brandArray);
+
+      if(categoryArray.length || brandArray.length) {
+        console.log('huina',brandArray);
+        return sortedAndSearchedItem.filter(item => (categoryArray.includes(item.category)||brandArray.includes(item.brand))) ;
+      }
+      else return sortedAndSearchedItem;
+      
       }
 
       
