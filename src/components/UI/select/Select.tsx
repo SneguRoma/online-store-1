@@ -2,7 +2,7 @@ import { ProductOptsArr, ProductOpts } from '../../../interfaсes';
 import classes from './Select.module.css'
 
 
-export const MySelect = ({options, defaultValue,value, onChange}: ProductOptsArr) => {
+export const Select = ({options, defaultValue,value, onChange}: ProductOptsArr) => {
   return (
     <select 
       value={value}
@@ -11,7 +11,7 @@ export const MySelect = ({options, defaultValue,value, onChange}: ProductOptsArr
     >
       <option disabled value="" className = {classes.option}>{defaultValue}</option>
       {options.map((option:  ProductOpts )=> 
-        <option key = {option.value} value = {option.value} className={classes.option}>
+        <option key = {option.id} value = {option.value} className={classes.option}>
           {option.name}
         </option>
         )}
@@ -20,4 +20,4 @@ export const MySelect = ({options, defaultValue,value, onChange}: ProductOptsArr
   );
 };
 
-export default MySelect;
+export default Select;

@@ -9,8 +9,7 @@
   border: 1px solid var(--color-border-light);
   border-radius: 6px;
   height: 40px;
-  /* background: url(../images/icons/arrow-icon.png) 95% center no-repeat rgba(0,0,0,0); */
-  padding-right: 32px;
+  background: url(../../../images/icons/arrow-icon.png) 95% center no-repeat rgba(0,0,0,0);
   font-size: var(--font-size-b1);
   line-height: var(--line-height-b1);
   font-family: var(--font-secondary);

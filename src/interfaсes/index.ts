@@ -1,5 +1,4 @@
 import React from "react";
-import { ChangeEvent } from "react";
 
 export interface IProduct {
   id: number;
@@ -25,9 +24,14 @@ export interface ProductOptsArr {
   options: ProductOpts[],
   defaultValue: string,
   value: string | number,
-  onChange: (e: string | number) => void;
+  onChange: (e: string | number) => void,
 }
 
+export interface ISwitcher {
+  quantityPages: number,
+  setPage: React.Dispatch<React.SetStateAction<number>>,
+  page: number
+}
 
 
 

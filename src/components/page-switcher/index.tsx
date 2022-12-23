@@ -1,26 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { ISwitcher } from '../../interfaсes';
 import './index.css';
 
-const PageSwitcher = (props:{quantityPages: number, pageNum: (arg0: number) => void}) => {
-
-  const [quantity, setQuantity] = useState(1);
+const PageSwitcher = ({quantityPages, setPage, page}:ISwitcher) => {
 
   function increment(){
-    if(quantity < props.quantityPages)setQuantity(quantity + 1);
+    if(page < quantityPages)setPage(page + 1);
   }
 
   function decrement(){
-    if(quantity > 1) setQuantity(quantity - 1);
+    if(page > 1) setPage(page - 1);
   }
 
-  useEffect(() => {
-    props.pageNum(quantity);
-  }, );
+  useEffect(()=>{
+    setPage(page);
+  })
 
   return(
   <div className='pages__switch'>
     <div className='switch left-arrow fa-solid fa-arrow-left' onClick={decrement}></div>
-    <div className='quantity__number'>{quantity}</div>
+    <div className='quantity__number'>{page}</div>
     <div className='switch right-arrow fa-solid fa-arrow-right' onClick={increment}></div>
   </div>
     

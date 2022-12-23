@@ -2,22 +2,44 @@ import CartItem from '../cart-item';
 import './index.css';
 import { IProduct } from '../../interfaсes';
 
-const CartList = (props:{elements: IProduct[], pages: number, removeItem: (item: IProduct)=>void}) => {
-  let i = props.pages + 1;
+interface ICartList {
+  elements: IProduct[], 
+  pages: number, 
+  removeItem: (item: IProduct)=>void, 
+  setPage: React.Dispatch<React.SetStateAction<number>>,  
+  page:number,
+  setSubtotal: React.Dispatch<React.SetStateAction<number>>,
+  subtotal: number,
+  setQuantityItems: React.Dispatch<React.SetStateAction<number>>,
+  quantityItems: number
+}
 
-  // TODO: Исправить работу пагинации
+const CartList = ({elements, pages, removeItem, setPage,  page, setSubtotal, subtotal, setQuantityItems, quantityItems}: ICartList) => {
+  let i = pages + 1;
 
-
+  if(!elements && page > 1){
+    setPage(page - 1);
+  }
+  
   return(
     <div className='products__list'>
       {
-        props.elements
+        elements
         ?
-        props.elements.map((item: IProduct) => 
-       <CartItem product={item} key={i} id={i++} removeItem={props.removeItem}/>
+        elements.map((item: IProduct) => 
+       <CartItem 
+       product={item} 
+       key={item.id} 
+       id={i++} 
+       removeItem={removeItem}
+       setSubtotal={setSubtotal}
+       subtotal = {subtotal}
+       quantityItems={quantityItems}
+       setQuantityItems={setQuantityItems}
+       />
       )
         :
-        <div className='title'>Вернитесь на 1 страницу</div>
+        <div className='empty-cart'>Cart is Empty</div>
       }
     </div>
   );

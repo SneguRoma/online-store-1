@@ -4,16 +4,20 @@ import { IProduct } from "../interfaсes";
 
 export const UsePagination = (products: IProduct[], limit: number) => {
   const pagination = useMemo(() => {
-  
-    const totalCount = products.length;
+
+    let totalCount = products.length;
     const pageCount = getPageCount(totalCount, limit);
     let pagesArray = [];
-    for(let i = 0; i < pageCount; i++){
+    for (let i = 0; i < pageCount; i++) {
       let page = [];
-      for(let j = limit * i; j < limit * (i + 1); j++){
+      let res = limit;
+      if (totalCount <= limit) res = totalCount;
+
+      for (let j = res * i; j < res * (i + 1); j++) {
         page.push(products[j]);
       }
       pagesArray.push(page);
+      totalCount = totalCount - limit;
     }
     return pagesArray;
   }, [limit, products])

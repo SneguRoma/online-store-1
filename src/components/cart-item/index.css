@@ -52,6 +52,7 @@
   flex-direction: column;
   row-gap: 10px;
   padding: 15px;
+  max-width: 320px;
 }
 
 .product_title{
@@ -64,6 +65,7 @@
   line-height: var(--line-height-b1);
   font-weight: var(--p-regular);
   color: var(--color-body);
+  word-wrap: break-word;
 }
 
 .product__rate-disc{
