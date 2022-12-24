@@ -4,16 +4,32 @@ import Input from '../UI/input/Input';
 import CartList from '../cart-list';
 import { products } from '../../data';
 import { Select } from '../UI/select/Select';
-import { useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import usePagination from '../../hooks/usePagination';
 import PageSwitcher from '../page-switcher';
 import { IProduct } from '../../interfaсes';
 
+interface IPromo{
+  id: number, 
+  title: string, 
+  value: number
+}
+
 
 const Cart = () => {
+  
+  // TODO: Доделать добавление количества товара
 
   const [items, setItems] = useState(products);
   const [limit, setLimit] = useState(5);
+  const [promo, setPromo] = useState('');
+  const [activePromo, setActivePromo] = useState<IPromo[]>([]);
+
+  const promoCodeList = [
+    {id: 1, title: 'rs', value: 15},
+    {id: 2, title: 'epm', value: 10}
+  ]
+  
   const itemsPerPages = usePagination(items, limit);
 
   const [subtotal, setSubtotal] = useState(products.reduce((sum, e) => sum + e.price, 0));
@@ -25,15 +41,43 @@ const Cart = () => {
 
   const [page, setPage] = useState(1);
 
+  const [subtotalClass, setsubtotalClass] = useState('');
+
   const sortItems = (quanItems:string | number) => {
     if(typeof quanItems === 'string')
     setLimit(Number(quanItems));
     setPage(1);
   }
 
+  
+  const getPromo = promoCodeList.find((e) => e.title === promo);
+
+  const addPromoCode = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if(!getPromo) return;
+    const newPromoCode = {
+      id: getPromo.id,
+      title: getPromo.title,
+      value: getPromo.value
+    }
+    if(!activePromo.some(e => e.id === newPromoCode.id)) {setActivePromo([...activePromo, newPromoCode]);}
+    setPromo('');
+    setsubtotalClass('old-price');
+  }
+
+  const removeActivePromo = (promo: IPromo) => {
+    setActivePromo(activePromo.filter(p => {return p.id !== promo.id}))
+    if(activePromo.length < 2){
+      setsubtotalClass('');
+    }
+  }
 
   const removeItem = (item: IProduct) => {
     setItems(items.filter(p => {return p.id !== item.id}));
+  }
+
+  const TotalSum = () => {
+    return (subtotal * (100 - activePromo.reduce((sum, e) => sum + e.value , 0)) / 100).toFixed(2);
   }
 
   return(
@@ -61,15 +105,15 @@ const Cart = () => {
             </div>
 
             {<CartList 
-            elements={itemsPerPages[page - 1]} 
-            pages = {(page - 1) * limit} 
-            removeItem = {removeItem} 
-            setPage = {setPage} 
-            page = {page} key = {page}
-            setSubtotal = {setSubtotal}
-            subtotal = {subtotal}
-            quantityItems={quantityItems}
-            setQuantityItems={setQuantityItems}
+              elements={itemsPerPages[page - 1]} 
+              pages = {(page - 1) * limit} 
+              removeItem = {removeItem} 
+              setPage = {setPage} 
+              page = {page} key = {page}
+              setSubtotal = {setSubtotal}
+              subtotal = {subtotal}
+              quantityItems={quantityItems}
+              setQuantityItems={setQuantityItems}
             />
             } 
           </div>
@@ -77,20 +121,49 @@ const Cart = () => {
             <form className='total-cart'>
             <h4 className='summary__title'>Order Summary</h4>
             <div className='subtotal cart__line'>
-              <span>Subtotal</span>
-              <div className='subtotal__sum'>${subtotal}</div>
+              <span className='cart__text'>Subtotal</span>
+              <div className={subtotalClass}>${subtotal}</div>
             </div>
             <div className='items cart__line'>
-              <span>Items</span>
+              <span className='cart__text'>Items</span>
               <div className='items__sum'>{quantityItems}</div>
             </div>
             <div className='promo cart__line'>
-              <span>Promo Code</span>
-              <Input type='text'></Input>
+              <div className='get-promo'>
+                <span className='cart__text'>Promo Code</span>
+                <Input 
+                type='text' 
+                placeholder='Enter Code'
+                value={promo}
+                onChange={e => setPromo(e.target.value) }
+                />  
+              </div>     
+              { getPromo
+                ?
+                <div className='promo__new-code' key={getPromo.id}>
+                  <div className='new-code__title'>Apply Code "{getPromo?.title}" - {getPromo?.value}%</div>
+                  <button className='new-code__button' onClick={addPromoCode}>add</button>
+                </div>
+                :
+                <></>
+                }
+              { activePromo
+                ?
+                activePromo.map((e) => {
+                  return(
+                  <div key={e.id} className='active-promo promo__new-code'>
+                    <div className='new-code__title'>Promo Code "{e.title}" - {e.value}%</div>
+                    <button className='new-code__button' onClick={()=>{removeActivePromo(e)}} >del</button>
+                  </div>)
+                })
+                :
+                <></>
+              }
+
             </div>
             <div className='total cart__line'>
-              <span>Total</span>
-              <div className='total__sum'>$123</div>
+              <span className='cart__text'>Total</span>
+              <div className='total__sum'>${TotalSum()}</div>
             </div>
             <Button>Process to Checkout</Button>
           </form>

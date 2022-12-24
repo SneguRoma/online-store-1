@@ -23,7 +23,6 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
       setSubtotal(subtotal + product.price);
       setQuantityItems(quantityItems + 1);
     }
-
   }
   
   function decrement(){
@@ -38,8 +37,6 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
       removeItem(product);
     }
   }
-
-
 
   return(
     <div className='product'>
@@ -66,7 +63,7 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
       <div className='product__stock'>Stock: {product.stock}</div>
       <div className='product_quan'>
         <div className='dec qtybtn' onClick={decrement}>-</div>
-        <div className='quantity__number'>{quantity}</div>
+        <div className='quantity__number'>{quantity }</div>
         <div className='inc qtybtn' onClick={increment}>+</div>
       </div>
     </div>
