@@ -15,7 +15,6 @@ interface ProductOptsArr {
 }
 
 
-
 export const MySelect = ({options, defaultValue,value, onChange}: ProductOptsArr) => {
   return (
     <select value={value}

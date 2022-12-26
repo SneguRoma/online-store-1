@@ -1,7 +1,7 @@
 .filters{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  height: 200px;
+  height: 400px;
   overflow: hidden;
   overflow-y: auto;
 }

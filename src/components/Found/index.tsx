@@ -6,6 +6,9 @@ import { MySelect } from '../MySelect';
 import { ItemList } from '../ItemList';
 import { Filters } from '../Filters';
 import './index.css';
+import MyRange from '../MyRange';
+import { options } from './options';
+import { checkedCatAndBrand, checkPriceFilter, checkStockFilter } from './functions';
 
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
@@ -18,7 +21,16 @@ export function Found() {
     const [foundProducts, setProducts] = useState(products);
     const [selectSort, setSelectSort] = useState('');
     const [search, setSearch] = useState('');
-    const [filter, setFilter]=useState({category: '', checked: true ,brand: '' , checkBrand: true });
+    const [filter, setFilter]=useState({
+     category: '',
+     checked: true,
+     brand: '', 
+     checkBrand: true, 
+     priceMin: 0,
+     priceMax: 2000,          
+     stockMin: 0, 
+     stockMax: 160
+    });
     
 
     const sortedItem = useMemo(() => {
@@ -61,35 +73,25 @@ export function Found() {
       if(sortedAndSearchedItem){
       if (filter.category !== ''){
        if(filter.checked) categorySet.add(filter.category);
-       else categorySet.delete(filter.category);
-       console.log('set of categ',categorySet);
+       else categorySet.delete(filter.category);      
       } 
-        categoryArray = Array.from(categorySet)
-      console.log('filtr:' ,filter);      
-      console.log('array of categ',categoryArray);
-
+      categoryArray = Array.from(categorySet)     
+ 
       if (filter.brand !== ''){
         if(filter.checkBrand) brandSet.add(filter.brand);
         else brandSet.delete(filter.brand);
-        console.log('set of brand',brandSet);
-       } 
-         brandArray = Array.from(brandSet);
-       console.log('filtr:' ,filter);
-       
-       console.log('array of brand',brandArray);
+      } 
+      brandArray = Array.from(brandSet);
 
-      if(categoryArray.length || brandArray.length) {
-        console.log('huina',brandArray);
-        return sortedAndSearchedItem.filter(item => (categoryArray.includes(item.category)||brandArray.includes(item.brand))) ;
-      }
-      else return sortedAndSearchedItem;
-      
-      }
+      const sortedSearchedAndFilteredItem = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);
+      console.log('min', filter.priceMin , 'max' ,filter.priceMax );
 
-      
-    }, [filter, sortedAndSearchedItem]);
-      
-    
+      const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItem);  
+
+      return checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
+         
+      }      
+    }, [filter, sortedAndSearchedItem]);    
 
     const sortItem = (sort: string) => {
       setSelectSort(sort);     
@@ -110,14 +112,7 @@ export function Found() {
             value={selectSort}
             onChange={sortItem} 
             defaultValue ='сортировка' 
-            options = {[
-              {value: 'titleup', name: 'by title asc'},
-              {value: 'titledown', name: 'by title desc'}, 
-              {value: 'priceup', name: 'by price asc'},
-              {value: 'pricedown', name: 'by price desc'},
-              {value: 'discountPercentageup', name: 'by discountPercentage asc'},
-              {value: 'discountPercentagedown', name: 'by discountPercentage desc'}
-            ]}            
+            options = {options}            
           />        
         </div>
 
@@ -125,7 +120,7 @@ export function Found() {
         filter={filter}
         setFilter = {setFilter}
         />
-
+        
         <hr style={{margin: '15px'}}/>
         <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}/>
           
