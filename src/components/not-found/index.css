@@ -1,4 +1,8 @@
 .section__not-found{
+  flex: 1 0 auto;
+}
+
+.not-found{
   margin-top: 3vw;
   display: flex;
   flex-direction: row;

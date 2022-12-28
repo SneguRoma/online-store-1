@@ -8,6 +8,8 @@ import { useState } from 'react';
 import usePagination from '../../hooks/usePagination';
 import PageSwitcher from '../page-switcher';
 import { IProduct } from '../../interfaсes';
+import Modal from '../UI/modal-window/Modal';
+import Billing from '../billing-card';
 
 interface IPromo{
   id: number, 
@@ -23,6 +25,7 @@ const Cart = () => {
   const [items, setItems] = useState(products);
   const [limit, setLimit] = useState(5);
   const [promo, setPromo] = useState('');
+  const [modal, setModal] = useState(false);
   const [activePromo, setActivePromo] = useState<IPromo[]>([]);
 
   const promoCodeList = [
@@ -41,6 +44,8 @@ const Cart = () => {
 
   const [page, setPage] = useState(1);
 
+  const [fullCart, setFullCart] = useState(true);
+
   const [subtotalClass, setsubtotalClass] = useState('');
 
   const sortItems = (quanItems:string | number) => {
@@ -49,6 +54,9 @@ const Cart = () => {
     setPage(1);
   }
 
+  function submitForm (e: React.SyntheticEvent) {
+    e.preventDefault();
+  }
   
   const getPromo = promoCodeList.find((e) => e.title === promo);
 
@@ -60,7 +68,8 @@ const Cart = () => {
       title: getPromo.title,
       value: getPromo.value
     }
-    if(!activePromo.some(e => e.id === newPromoCode.id)) {setActivePromo([...activePromo, newPromoCode]);}
+    if(!activePromo.some(e => e.id === newPromoCode.id)) {
+      setActivePromo([...activePromo, newPromoCode]);}
     setPromo('');
     setsubtotalClass('old-price');
   }
@@ -82,94 +91,96 @@ const Cart = () => {
 
   return(
     <section className='section-cart'>
-      <div className='container'>
-        <div className='cart'>
-          <div className='cart__products'>
-            <div className='products__nav'>
-              <h4 className='cart__title'>Your Cart</h4>
-              <div className='cart__pages'>
-                <PageSwitcher quantityPages={quantityPages} setPage = {setPage} page = {page}/>
-                <Select 
-                  options={[
-                    {value: 5, name: '5', id: 1},
-                    {value: 10, name: '10', id: 2},
-                    {value: 25, name: '25', id: 3},
-                    {value: allItems, name: 'All', id: 4}
-                  ]} 
-                  defaultValue={'Show items'} 
-                  value={limit} 
-                  onChange={sortItems}
-                />
-              </div>
-              
-            </div>
-
-            {<CartList 
-              elements={itemsPerPages[page - 1]} 
-              pages = {(page - 1) * limit} 
-              removeItem = {removeItem} 
-              setPage = {setPage} 
-              page = {page} key = {page}
-              setSubtotal = {setSubtotal}
-              subtotal = {subtotal}
-              quantityItems={quantityItems}
-              setQuantityItems={setQuantityItems}
-            />
-            } 
-          </div>
-          <div className='cart-wrapper'>
-            <form className='total-cart'>
-            <h4 className='summary__title'>Order Summary</h4>
-            <div className='subtotal cart__line'>
-              <span className='cart__text'>Subtotal</span>
-              <div className={subtotalClass}>${subtotal}</div>
-            </div>
-            <div className='items cart__line'>
-              <span className='cart__text'>Items</span>
-              <div className='items__sum'>{quantityItems}</div>
-            </div>
-            <div className='promo cart__line'>
-              <div className='get-promo'>
-                <span className='cart__text'>Promo Code</span>
-                <Input 
-                type='text' 
-                placeholder='Enter Code'
-                value={promo}
-                onChange={e => setPromo(e.target.value.toLowerCase()) }
-                />  
-              </div>     
-              { getPromo
-                ?
-                <div className='promo__new-code' key={getPromo.id}>
-                  <div className='new-code__title'>Apply Code "{getPromo?.title}" - {getPromo?.value}%</div>
-                  <button className='new-code__button' onClick={addPromoCode}>add</button>
+      <div className='container'>{}
+        <Modal visible={modal} setVisible={setModal}>
+          <Billing/>
+        </Modal>
+        {
+          fullCart
+          ?
+          <div className='cart'>
+            <div className='cart__products'>
+              <div className='products__nav'>
+                <h4 className='cart__title'>Your Cart</h4>  
+                <div className='cart__pages'>
+                  <PageSwitcher quantityPages={quantityPages} setPage = {setPage} page = {page}/>
+                  <Select 
+                    options={[
+                      {value: 5, name: '5', id: 1},
+                      {value: 10, name: '10', id: 2},
+                      {value: 25, name: '25', id: 3},
+                      {value: allItems, name: 'All', id: 4}
+                    ]} 
+                    defaultValue={'Show items'} 
+                    value={limit} 
+                    onChange={sortItems}
+                  />
                 </div>
-                :
-                <></>
-                }
-              { activePromo
-                ?
-                activePromo.map((e) => {
-                  return(
-                  <div key={e.id} className='active-promo promo__new-code'>
-                    <div className='new-code__title'>Promo Code "{e.title}" - {e.value}%</div>
-                    <button className='new-code__button' onClick={()=>{removeActivePromo(e)}} >del</button>
-                  </div>)
-                })
-                :
-                <></>
-              }
+                
+              </div>
 
+              {<CartList 
+                elements={itemsPerPages[page - 1]} 
+                pages = {(page - 1) * limit} 
+                removeItem = {removeItem} 
+                setPage = {setPage} 
+                page = {page} key = {page}
+                setSubtotal = {setSubtotal}
+                subtotal = {subtotal}
+                quantityItems={quantityItems}
+                setQuantityItems={setQuantityItems}
+                setFullCart = {setFullCart}
+              />
+              } 
             </div>
-            <div className='total cart__line'>
-              <span className='cart__text'>Total</span>
-              <div className='total__sum'>${TotalSum()}</div>
+            <div className='cart-wrapper'>
+              <form className='total-cart' onSubmit={submitForm}>
+                <h4 className='summary__title'>Order Summary</h4>
+                <div className='subtotal cart__line'>
+                  <span className='cart__text'>Subtotal</span>
+                  <div className={subtotalClass}>${subtotal}</div>
+                </div>
+                <div className='items cart__line'>
+                  <span className='cart__text'>Items</span>
+                  <div className='items__sum'>{quantityItems}</div>
+                </div>
+                <div className='promo cart__line'>
+                  <div className='get-promo'>
+                    <span className='cart__text'>Promo Code</span>
+                    <Input 
+                    type='text' 
+                    placeholder='Enter Code'
+                    value={promo}
+                    onChange={e => setPromo(e.target.value.toLowerCase()) }
+                    />  
+                  </div>     
+                  { getPromo &&
+                    <div className='promo__new-code' key={getPromo.id}>
+                      <div className='new-code__title'>Apply Code "{getPromo?.title}" - {getPromo?.value}%</div>
+                      <button className='new-code__button' onClick={addPromoCode}>add</button>
+                    </div>
+                    }
+                  { activePromo &&
+                    activePromo.map((e) => {
+                      return(
+                      <div key={e.id} className='active-promo promo__new-code'>
+                        <div className='new-code__title'>Promo Code "{e.title}" - {e.value}%</div>
+                        <button className='new-code__button' onClick={()=>{removeActivePromo(e)}} >del</button>
+                      </div>)
+                    })
+                  }
+                </div>
+                <div className='total cart__line'>
+                  <span className='cart__text'>Total</span>
+                  <div className='total__sum'>${TotalSum()}</div>
+                </div>
+                <Button onClick={ () => {setModal(true)}}>Process to Checkout</Button>
+              </form>
             </div>
-            <Button>Process to Checkout</Button>
-          </form>
           </div>
-          
-        </div>
+          :
+          <div className='empty-cart'>Cart is Empty</div>
+        } 
       </div>
     </section>
   )

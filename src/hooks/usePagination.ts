@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import getPageCount from "../components/utils/pages";
+import getPageCount from "../utils/pages";
 import { IProduct } from "../interfaсes";
 
 export const UsePagination = (products: IProduct[], limit: number) => {

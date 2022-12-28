@@ -1,0 +1,78 @@
+.billing__form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.billing__form .button{
+  width: 50%;
+  align-self: center;
+}
+
+.billing__title{
+  margin: 0;
+  font-weight: var(--s-medium);
+  margin-bottom: 30px;
+  font-size: var(--h4);
+  word-break: break-word;
+  font-family: var(--font-secondary);
+  line-height: 1.3;
+  color: var(--color-heading);
+  text-align: center;
+}
+
+.form-group{
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.form-error{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 30;
+  padding: 5px;
+  font-size: var(--font-size-b2);
+  color: var(--color-danger);
+  cursor: default;
+}
+
+.form-group__name{
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  pointer-events: none;
+  z-index: 4;
+  background: #fff;
+  padding: 0 10px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--color-body);
+}
+
+.form-group__name__star{
+  color: var(--color-chart03);
+}
+
+.form-group__double{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2em;
+}
+
+.billing__form input{
+  height: 60px;
+  padding: 0 20px;
+}
+
+.credit-card{
+  padding: 30px;
+  padding-bottom: 20px;
+  border-radius: 22px;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px;
+}

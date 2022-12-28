@@ -23,3 +23,7 @@
 .button__buy{
   background-color: var(--color-warning);
 }
+
+.button:disabled{
+  background-color: var(--color-lightest);
+}

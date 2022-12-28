@@ -3,7 +3,7 @@ import classes from "./Button.module.css";
 
 const Button = ({children, ...props}:DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>): JSX.Element => {
   return(
-    <button {...props} className={classes.button}>
+    <button {...props} className={`button ${classes.button}`}>
       {children}
     </button>
   )}
