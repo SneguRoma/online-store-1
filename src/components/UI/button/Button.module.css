@@ -1,6 +1,5 @@
 .button{
   position: relative;
-  width: 100%;
   text-align: center;
   display: block;
   background-color: var(--color-primary);
