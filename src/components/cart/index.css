@@ -48,8 +48,9 @@
 }
 
 .total-cart{
-  /* width: 100%; */
-  position: fixed;
+  width: 100%;
+  top: 2em;
+  position: sticky;
   display: flex;
   flex-direction: column;
   justify-content: center;

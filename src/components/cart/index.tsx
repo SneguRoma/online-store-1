@@ -4,7 +4,7 @@ import Input from '../UI/input/Input';
 import CartList from '../cart-list';
 import { products } from '../../data';
 import { Select } from '../UI/select/Select';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useState } from 'react';
 import usePagination from '../../hooks/usePagination';
 import PageSwitcher from '../page-switcher';
 import { IProduct } from '../../interfaсes';
@@ -135,7 +135,7 @@ const Cart = () => {
                 type='text' 
                 placeholder='Enter Code'
                 value={promo}
-                onChange={e => setPromo(e.target.value) }
+                onChange={e => setPromo(e.target.value.toLowerCase()) }
                 />  
               </div>     
               { getPromo
