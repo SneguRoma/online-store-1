@@ -1,4 +1,4 @@
-.itemlist{
+.itemlist-found{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 }
@@ -10,3 +10,4 @@
 .product_info{
   max-width: 200px;
 }
+

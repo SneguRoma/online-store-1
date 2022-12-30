@@ -9,7 +9,7 @@ interface ProductProps {
 export function ProductElement({product}: ProductProps){
   return (    
     <div>       
-      <img src={product.images[1]} alt={product.title} className="product_image" />
+      <img src={product.images[0]} alt={product.title} className="product_image" />
       <div className="product_info">
         <ul className="product_info_list">
           <li className="product_info_item"><strong>Category:  </strong>  {product.category}</li>

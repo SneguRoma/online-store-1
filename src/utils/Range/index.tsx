@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.css';
 
 interface rangeProps {
   min: number,
@@ -6,21 +7,21 @@ interface rangeProps {
   step: number,
   value: number,
   onChange: any,
- 
+  className: string 
 }
 
-function MyRange({value, onChange, min, max, step}: rangeProps) {
+function MyRange({value, onChange, min, max, step,className}: rangeProps) {
   return (
-    <div id="my-range" >
-        <p className="my-range-value">{value}</p>
-        <input 
+    <div className={className}>        
+        <input className= 'my-range-slidebar'
+          list="tickmarks"
           value={value}
           onChange={event => onChange(event.target.value)}
           type="range"          
           name="price" 
           min={min} 
           max={max} 
-          step={step}/>         
+          step={step}/>                  
     </div>
   )
 }

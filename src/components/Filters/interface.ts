@@ -1,6 +1,9 @@
+import { IProduct } from "../../interfaсes"
+
 export interface filterProps {  
   filter: Ifilter
-  setFilter: any  
+  setFilter: any
+  sortedSearchedAndFilteredItem: IProduct[]  
 }
 export interface Ifilter {  
   category: string
