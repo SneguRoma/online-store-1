@@ -1,4 +1,4 @@
-import { Found } from "../pages/found"
+import { Found } from "../pages/Found"
 
 const App: React.FC = () => {
   return (

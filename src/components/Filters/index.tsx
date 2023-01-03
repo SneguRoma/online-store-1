@@ -1,11 +1,11 @@
 
 import { products } from '../../data';
 import './index.css';
-import { filterProps } from './interface';
 import Range from '../UI/range/Range';
 import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
 import Checkbox from '../UI/checkbox/Checkbox';
+import { filterProps } from './interface';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
