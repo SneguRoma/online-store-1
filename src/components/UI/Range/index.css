@@ -2,7 +2,7 @@
 
 .my-range-slidebar{
   width: 80%;
-  -webkit-appearance: none;
+  --webkit-appearance: none;
   height: 10px;
   background: rgb(222, 224, 240);
   border-radius: 5px;

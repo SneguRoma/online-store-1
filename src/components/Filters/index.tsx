@@ -1,10 +1,10 @@
 
-import MyCheckbox from '../../utils/Checkbox'
+import MyCheckbox from '../UI/Checkbox'
 import { products } from '../../data';
 import React, { useMemo,  useState} from 'react';
 import './index.css';
 import { filterProps } from './interface';
-import MyRange from '../../utils/Range';
+import MyRange from '../UI/Range';
 import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IProduct } from '../../interfaсes'
+import { IProduct } from '../../../interfaсes'
 import './index.css'; 
 
 interface ProductOpts {

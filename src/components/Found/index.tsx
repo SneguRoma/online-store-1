@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
-import { MySelect } from '../../utils/MySelect';
+import { MySelect } from '../UI/MySelect';
 import { ItemList } from '../ItemList';
 import { Filters } from '../Filters';
 import './index.css';
