@@ -23,6 +23,7 @@
 }
 
 .form-group{
+  flex: 1 0 auto;
   margin-bottom: 30px;
   position: relative;
 }
@@ -61,7 +62,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2em;
+  gap: 1em;
 }
 
 .billing__form input{
@@ -86,12 +87,13 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  /* position: absolute;
   top: 8px;
-  right: 8px;
+  right: 8px; */
   width: 70px;
   height: 45px;
   border-radius: 5px;
+  margin-bottom: 30px;
   overflow: hidden;
 }
 

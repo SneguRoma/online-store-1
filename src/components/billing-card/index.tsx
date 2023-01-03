@@ -222,13 +222,17 @@ const Billing = ({setChangeModal}:IBilling) => {
 
       <div className='credit-card'>
 
-        <div className='form-group'>
+        <div className='form-group__double'>
+          <div className='form-group'>
           {(cardNumberDirty && cardNumberError) && <div className='form-error'>{cardNumberError}</div>}
           <span className='form-group__name'>Card Number<span className='form-group__name__star'>*</span></span>
           
-          {(cardType) && <div className='credit-card__type'><img src={cardType} alt="" className='credit-card__img'/></div>}
+          {/* {(cardType) && <div className='credit-card__type'><img src={cardType} alt="" className='credit-card__img'/></div>} */}
           <Input name='card-number' onBlur={ e => blurHandler(e)} value={cardNumber} onChange={(e) => cardNumberHandler(e)} type='number' required/>
         </div>
+          {(cardType) && <div className='credit-card__type'><img src={cardType} alt="" className='credit-card__img'/></div>}
+        </div>
+        
 
         <div className='form-group__double'>
 
