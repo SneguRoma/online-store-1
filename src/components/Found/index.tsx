@@ -28,26 +28,28 @@ export function Found() {
     checkBrand: true, 
     priceMin: maxminprice.priceMin,
     priceMax: maxminprice.priceMax,          
-    stockMin: 0, 
-    stockMax: 160
+    stockMin: maxminprice.stockMin, 
+    stockMax: maxminprice.stockMax
   });
-  
     
-
-  const sortedItem = useMemo(() => {
-    if(selectSort) return sortItems(foundProducts, selectSort);    
+  const sortedItem = useMemo(() => {    
+    if(selectSort) {    
+      return sortItems(foundProducts, selectSort);
+    }    
     else return products;
   },
   [selectSort, products]);
     
   const sortedAndSearchedItem = useMemo(() => {  
-    if(sortedItem)
-    return sortedItem.filter(item => 
+    if(sortedItem){      
+      return sortedItem.filter(item => 
       item.title.toLowerCase().includes(search) || 
       item.brand.toLowerCase().includes(search) || 
       item.category.toLowerCase().includes(search)||
       item.price.toString().toLowerCase().includes(search)||
       item.rating.toString().toLowerCase().includes(search))
+    }
+    
   }, [search, sortedItem]);
 
   const sortedSearchedAndFilteredItem = useMemo(() => {
@@ -63,10 +65,13 @@ export function Found() {
     } 
     brandArray = Array.from(brandSet);
 
-    const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);    
+    const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);   
 
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
+   
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
+   
+ 
       
     return checkedStockedFiltered;         
     }      
@@ -91,7 +96,8 @@ export function Found() {
             value={selectSort}
             onChange={sortItem} 
             defaultValue ='сортировка' 
-            options = {options}            
+            options = {options}
+                        
           />        
         </div>
         <Filters

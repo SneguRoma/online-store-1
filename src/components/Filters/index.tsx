@@ -5,13 +5,8 @@ import React, { useMemo,  useState} from 'react';
 import './index.css';
 import { filterProps } from './interface';
 import MyRange from '../../utils/Range';
-import { setFilterAndSort, setMinPriceBound, setMaxPriceBound } from './functions';
-const priceMin = 0;
-const priceMax = 2000;  
-const priceSet = 10;
-const stockMin = 0;
-const stockMax = 160;  
-const stockSet = 1;
+import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
+import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -29,11 +24,13 @@ if (brandsArr.length === 0) {
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
   
-  const setPriceBounds = setFilterAndSort(sortedSearchedAndFilteredItem);
-  const minPriceBound = setMinPriceBound(setPriceBounds.priceMin, setPriceBounds.priceMax);
-  const maxPriceBound = setMaxPriceBound(setPriceBounds.priceMin, setPriceBounds.priceMax);
+  const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem);
+  const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
+  const maxPriceBound = setMaxBound(setBounds.priceMin, setBounds.priceMax);
+  const minStockBound = setMinBound(setBounds.stockMin, setBounds.stockMax);
+  const maxStockBound = setMaxBound(setBounds.stockMin, setBounds.stockMax);
   
-  /* setFilter({...filter, priceMin: hui.priceMin, priceMax: hui.priceMax}) */
+ 
    
   const checkedCategory = (check: boolean, item: string) => {      
        setFilter({...filter, category: item , checked: check})     
@@ -61,9 +58,10 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
             {categoriesArr.sort().map((category: string, index: number) => 
           <MyCheckbox 
             item={categoriesArr[index]}
-            key = {index} 
+            key = {index}            
             onChange={checkedCategory}
-            value = {categoriesArr[index]} />)}
+            sortedArray = {sortedSearchedAndFilteredItem}
+            value = {'category'/* categoriesArr[index] */} />)}
       </fieldset>
       <fieldset className='my-checkbox'>
           <legend>Choose your filters:</legend>
@@ -72,7 +70,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
             item={brandsArr[index]}
             key = {index} 
             onChange={checkedBrand}
-            value = {brandsArr[index]} />)}
+            sortedArray = {sortedSearchedAndFilteredItem}
+            value = {'brand'/* sArr[index] */} />)}
       </fieldset>
       <div className="range-block price-block">
         <div className="range-values">
@@ -80,14 +79,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           <p className='max-range'>{maxPriceBound}</p>
         </div>  
         <MyRange 
-          value = {/* (filter.priceMin > hui.priceMin) ?  */setPriceBounds.priceMin /* : filter.priceMin */ } 
+          value = {setBounds.priceMin} 
           min= {priceMin} 
           max = {priceMax} 
           step = {priceSet} 
           onChange = {rangePriceMin} 
           className = 'my-range min-range-slidebar'/>
         <MyRange 
-          value = {setPriceBounds.priceMax} 
+          value = {setBounds.priceMax} 
           min= {priceMin} 
           max = {priceMax} 
           step = {priceSet} 
@@ -97,18 +96,18 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       </div>
       <div className="range-block stock-block">
         <div className="range-values">
-          <p className='min-range'> {(+filter.stockMin < +filter.stockMax) ? filter.stockMin : filter.stockMax}</p>
-          <p className='max-range'> {(+filter.stockMin < +filter.stockMax) ? filter.stockMax : filter.stockMin}</p>
+          <p className='min-range'> {minStockBound}</p>
+          <p className='max-range'> {maxStockBound}</p>
         </div>        
         <MyRange
-          value = {filter.stockMin}
+          value = {setBounds.stockMin}
           min= {stockMin}
           max = {stockMax}
           step = {stockSet}
           onChange = {rangeStockMin}
           className = 'my-range min-range-slidebar'/>
         <MyRange 
-          value = {filter.stockMax} 
+          value = {setBounds.stockMax} 
           min= {stockMin} 
           max = {stockMax} 
           step = {stockSet} 

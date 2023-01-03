@@ -1,4 +1,8 @@
-export interface IProduct {
+interface IProductKeys {
+  [key: string]: string | number | string[];
+}
+
+export interface IProduct extends IProductKeys{
   id: number;
   title: string;
   description: string;
