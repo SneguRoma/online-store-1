@@ -1,9 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Button from '../UI/button/Button';
 import Input from '../UI/input/Input';
 import './index.css';
+import visa from '../../images/icons/visa.svg';
+import americanExpress from '../../images/icons/american-express.svg';
+import mastercard from '../../images/icons/mastercard.svg';
+import unionpay from '../../images/icons/union-pay.svg';
 
-const Billing = () => {
+interface IBilling {
+  setChangeModal: Dispatch<SetStateAction<boolean>>;
+}
+
+const Billing = ({setChangeModal}:IBilling) => {
 
   const [name, setName] = useState('');
   const [nameDirty, setNameDirty]  = useState(false);
@@ -58,25 +66,57 @@ const Billing = () => {
     }
   }
 
+  const [cardType, setCardType] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardNumberDirty, setCardNumberDirty]  = useState(false);
   const [cardNumberError, setCardNumberError] = useState('This field cannot be empty');
   const cardNumberHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
     const regExp = new RegExp(/^[0-9]{16}$/);
-    setCardNumber(e.target.value);
-    if(!regExp.test(String(e.target.value))){
-      setCardNumberError('Incorrect card number');
-    }else{
-      setCardNumberError('');
+
+    if(e.target.value.length <= 16){
+
+      switch(e.target.value[0]){
+        case '3': 
+          setCardType(americanExpress);
+        break;
+        case '4': 
+          setCardType(visa);
+        break;
+        case '5': 
+          setCardType(mastercard);
+        break;
+        case '6': 
+          setCardType(unionpay);
+        break;
+        default:
+          setCardType('');
+      }
+
+      setCardNumber(e.target.value);
+      if(!regExp.test(String(e.target.value))){
+        setCardNumberError('Incorrect card number');
+      }else{
+        setCardNumberError('');
+      }
     }
   }
+ 
 
   const [expiration, setExpiration] = useState('');
   const [expirationDirty, setExpirationDirty]  = useState(false);
   const [expirationError, setExpirationError] = useState('This field cannot be empty');
   const expirationHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const regExp = new RegExp(/^[0-9]{2} [0-9]{2}$/);
-    setExpiration(e.target.value);
+    const regExp = new RegExp(/^[0-9]{2}\/[0-9]{2}$/);
+
+    if(Number(e.target.value) > 12){
+      setExpirationError('Incorrect expiration');
+    }
+    else if(e.target.value > expiration && e.target.value.length === 2){
+      setExpiration(e.target.value + '/');
+    }else{
+      setExpiration(e.target.value);
+    }
+    
     if(!regExp.test(String(e.target.value))){
       setExpirationError('Incorrect expiration');
     }else{
@@ -89,12 +129,14 @@ const Billing = () => {
   const [scError, setSCError] = useState('This field cannot be empty');
   const scHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
     const regExp = new RegExp(/^[0-9]{3}$/);
-    setSC(e.target.value);
-    if(!regExp.test(String(e.target.value))){
-      setSCError('Incorrect SC');
-    }else{
-      setSCError('');
-    }
+    if(e.target.value.length < 4){
+      setSC(e.target.value);
+      if(!regExp.test(String(e.target.value))){
+        setSCError('Incorrect SC');
+      }else{
+        setSCError('');
+      }
+    }    
   }
 
   const blurHandler = (e:React.FocusEvent<HTMLInputElement, Element>) => {
@@ -123,20 +165,36 @@ const Billing = () => {
     }
   }
 
-  const[formValid, setFormValid] = useState(false);
+  const[formValid, setFormValid] = useState(true);
 
   useEffect(() => {
-    if(nameError || phoneError || addressError || emailError || cardNumberError || expirationError || scError){
-      setFormValid(false);
-    }else{
+    if(!nameError && !phoneError && !addressError && !emailError && !cardNumberError && !expirationError && !scError){
       setFormValid(true);
     }
+  }, [nameError, phoneError, addressError, emailError, cardNumberError, expirationError, scError]);
 
-
-  }, [nameError, phoneError, addressError, emailError, cardNumberError, expirationError, scError])
+  const formError = () => {
+    if(nameError || phoneError || addressError || emailError || cardNumberError || expirationError || scError){
+      setFormValid(false);
+      setNameDirty(true);
+      setPhoneDirty(true);
+      setAddressDirty(true);
+      setEmailDirty(true);
+      setCardNumberDirty(true);
+      setExpirationDirty(true);
+      setSCDirty(true);
+    }else{
+      setFormValid(true);
+      setChangeModal(true);
+    }    
+  }    
+  
+  function submitForm (e: React.SyntheticEvent) {
+      e.preventDefault();
+    }
 
   return(
-    <form className='billing__form'>
+    <form className='billing__form' onSubmit={submitForm}>
       <h4 className='billing__title'>Billing details</h4>
       <div className='form-group'>
         {(nameDirty && nameError) && <div className='form-error'>{nameError}</div>}
@@ -167,7 +225,9 @@ const Billing = () => {
         <div className='form-group'>
           {(cardNumberDirty && cardNumberError) && <div className='form-error'>{cardNumberError}</div>}
           <span className='form-group__name'>Card Number<span className='form-group__name__star'>*</span></span>
-          <Input name='card-number' onBlur={ e => blurHandler(e)} value={cardNumber} onChange={(e) => cardNumberHandler(e)} maxLength={16} minLength={16} required/>
+          
+          {(cardType) && <div className='credit-card__type'><img src={cardType} alt="" className='credit-card__img'/></div>}
+          <Input name='card-number' onBlur={ e => blurHandler(e)} value={cardNumber} onChange={(e) => cardNumberHandler(e)} type='number' required/>
         </div>
 
         <div className='form-group__double'>
@@ -175,18 +235,18 @@ const Billing = () => {
           <div className='form-group'>
             {(expirationDirty && expirationError) && <div className='form-error'>{expirationError}</div>}
             <span className='form-group__name'>Expiration<span className='form-group__name__star'>*</span></span>
-            <Input name='expiration' onBlur={ e => blurHandler(e)} value={expiration} onChange={(e) => expirationHandler(e)} maxLength={5} minLength={5} required/>
+            <Input name='expiration' onBlur={ e => blurHandler(e)} value={expiration} onChange={(e) => expirationHandler(e)}  maxLength={5} minLength={5} required/>
           </div>
 
           <div className='form-group'>
             {(scDirty && scError) && <div className='form-error'>{scError}</div>}
             <span className='form-group__name'>Security Code<span className='form-group__name__star'>*</span></span>
-            <Input name='sc' onBlur={ e => blurHandler(e)} value={sc} onChange={(e) => scHandler(e)} maxLength={3} minLength={3} required/>
+            <Input name='sc' onBlur={ e => blurHandler(e)} value={sc} onChange={(e) => scHandler(e)} type='number' required/>
           </div>
 
         </div>
       </div>
-      <Button disabled={!formValid}>Confirm</Button>
+      <Button disabled={!formValid} onClick={formError}>Confirm</Button>
     </form>
   );
 };

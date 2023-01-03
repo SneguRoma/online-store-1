@@ -4,7 +4,7 @@ import Input from '../UI/input/Input';
 import CartList from '../cart-list';
 import { products } from '../../data';
 import { Select } from '../UI/select/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usePagination from '../../hooks/usePagination';
 import PageSwitcher from '../page-switcher';
 import { IProduct } from '../../interfaсes';
@@ -27,6 +27,7 @@ const Cart = () => {
   const [promo, setPromo] = useState('');
   const [modal, setModal] = useState(false);
   const [activePromo, setActivePromo] = useState<IPromo[]>([]);
+  const [changeModal, setChangeModal] = useState(false);
 
   const promoCodeList = [
     {id: 1, title: 'rs', value: 15},
@@ -89,11 +90,37 @@ const Cart = () => {
     return (subtotal * (100 - activePromo.reduce((sum, e) => sum + e.value , 0)) / 100).toFixed(2);
   }
 
+  const [time, setTime] = useState(3);
+  const [ timerActive, setTimerActive ] = useState(false);
+   
+  useEffect(() => {
+    if (time > 0 && timerActive) {
+      setTimeout(setTime, 1000, time - 1);
+    } else {
+      setTimerActive(false);
+    }
+    
+  }, [ time, timerActive ]);  
+
+  useEffect(()=>{
+    if(changeModal){
+      setTimerActive(true);
+      setTime(3);
+    }
+  }, [changeModal])
+
   return(
     <section className='section-cart'>
       <div className='container'>{}
         <Modal visible={modal} setVisible={setModal}>
-          <Billing/>
+          {
+            !changeModal
+            ?
+            <Billing setChangeModal={setChangeModal} />
+            :    
+            <div className='redirect'>Thanks for you order! Redirect to the store after {time} sec</div>
+          }
+          
         </Modal>
         {
           fullCart
