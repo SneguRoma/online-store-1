@@ -1,0 +1,47 @@
+.filters{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 400px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.my-checkbox{
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.max-range{
+  margin-left:60%;
+}
+
+.min-range{
+  margin-left: 15%;
+}
+
+.range-values{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.my-range{
+  position: absolute; 
+  width: 100%;
+  left: 5%;
+}
+
+.range-block{
+  position: relative;
+  height: 100px;
+}
+
+.range-block-name{
+  display: block;
+  padding-top: 30px;
+  margin-left: 40%;
+}
+
+
+
+
+

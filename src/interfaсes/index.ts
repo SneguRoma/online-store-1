@@ -1,6 +1,8 @@
-import React from "react";
+interface IProductKeys {
+  [key: string]: string | number | string[];
+}
 
-export interface IProduct {
+export interface IProduct extends IProductKeys {
   id: number;
   title: string;
   description: string;
@@ -13,25 +15,3 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
 }
-
-export interface ProductOpts {
-  value: string | number,
-  name: string,
-  id?: number
-}
-
-export interface ProductOptsArr {
-  options: ProductOpts[],
-  defaultValue: string,
-  value: string | number,
-  onChange: (e: string | number) => void,
-}
-
-export interface ISwitcher {
-  quantityPages: number,
-  setPage: React.Dispatch<React.SetStateAction<number>>,
-  page: number
-}
-
-
-
