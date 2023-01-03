@@ -1,9 +1,6 @@
-import React from 'react'
 import { products } from '../../../data';
 import { IProduct } from '../../../interfaсes';
 import './index.css';
-
-
 
 interface checkBoxProps {
   item: string
@@ -12,9 +9,7 @@ interface checkBoxProps {
   sortedArray: IProduct[]
 }
 
-
-
-function MyCheckbox({item,value, onChange, sortedArray}: checkBoxProps) {  
+function Checkbox({item,value, onChange, sortedArray}: checkBoxProps) {  
    const itemOnStock = products.filter((i) => i[value] === item).length;
    const itemOnStockFind = sortedArray.filter((i) => i[value] === item).length;
   return (
@@ -26,4 +21,4 @@ function MyCheckbox({item,value, onChange, sortedArray}: checkBoxProps) {
   )
 }
 
-export default MyCheckbox
+export default Checkbox;

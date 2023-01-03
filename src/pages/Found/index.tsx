@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
-import { MySelect } from '../../components/UI/MySelect';
+import { Select } from '../../components/UI/select/Select';
 import { ItemList } from '../../components/ItemList';
-import { Filters } from '../../components/Filters';
+import { Filters } from '../../components/filters';
 import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
-import { setFilterAndSort } from '../../components/Filters/functions';
+import { setFilterAndSort } from '../../components/filters/functions';
 
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
@@ -78,8 +78,8 @@ export function Found() {
   }, [filter, sortedAndSearchedItem]);
   
   
-    const sortItem = (sort: string) => {
-      setSelectSort(sort);     
+    const sortItem = (sort: string | number) => {
+      if(typeof sort === 'string') setSelectSort(sort);     
     }
   
     return (
@@ -92,7 +92,7 @@ export function Found() {
             className="found" 
            />
           <hr style={{margin: '15px'}}/>           
-          <MySelect 
+          <Select 
             value={selectSort}
             onChange={sortItem} 
             defaultValue ='сортировка' 

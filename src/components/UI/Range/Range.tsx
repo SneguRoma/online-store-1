@@ -1,4 +1,3 @@
-import React from 'react'
 import './index.css';
 
 interface rangeProps {
@@ -10,7 +9,7 @@ interface rangeProps {
   className: string 
 }
 
-function MyRange({value, onChange, min, max, step,className}: rangeProps) {
+function Range({value, onChange, min, max, step,className}: rangeProps) {
   return (
     <div className={className}>        
         <input className= 'my-range-slidebar'
@@ -26,4 +25,4 @@ function MyRange({value, onChange, min, max, step,className}: rangeProps) {
   )
 }
 
-export default MyRange
+export default Range;

@@ -1,12 +1,11 @@
 
-import MyCheckbox from '../UI/Checkbox'
 import { products } from '../../data';
-import React, { useMemo,  useState} from 'react';
 import './index.css';
 import { filterProps } from './interface';
-import MyRange from '../UI/Range';
+import Range from '../UI/range/Range';
 import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
+import Checkbox from '../UI/checkbox/Checkbox';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -56,7 +55,7 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       <fieldset className='my-checkbox' >
           <legend>Choose your filters:</legend>
             {categoriesArr.sort().map((category: string, index: number) => 
-          <MyCheckbox 
+          <Checkbox 
             item={categoriesArr[index]}
             key = {index}            
             onChange={checkedCategory}
@@ -66,7 +65,7 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       <fieldset className='my-checkbox'>
           <legend>Choose your filters:</legend>
             {brandsArr.sort().map((brand: string, index: number) => 
-          <MyCheckbox
+          <Checkbox
             item={brandsArr[index]}
             key = {index} 
             onChange={checkedBrand}
@@ -78,14 +77,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           <p className='min-range'> {minPriceBound}</p>
           <p className='max-range'>{maxPriceBound}</p>
         </div>  
-        <MyRange 
+        <Range 
           value = {setBounds.priceMin} 
           min= {priceMin} 
           max = {priceMax} 
           step = {priceSet} 
           onChange = {rangePriceMin} 
           className = 'my-range min-range-slidebar'/>
-        <MyRange 
+        <Range 
           value = {setBounds.priceMax} 
           min= {priceMin} 
           max = {priceMax} 
@@ -99,14 +98,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           <p className='min-range'> {minStockBound}</p>
           <p className='max-range'> {maxStockBound}</p>
         </div>        
-        <MyRange
+        <Range
           value = {setBounds.stockMin}
           min= {stockMin}
           max = {stockMax}
           step = {stockSet}
           onChange = {rangeStockMin}
           className = 'my-range min-range-slidebar'/>
-        <MyRange 
+        <Range 
           value = {setBounds.stockMax} 
           min= {stockMin} 
           max = {stockMax} 
