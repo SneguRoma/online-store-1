@@ -15,3 +15,22 @@ export interface IProduct extends IProductKeys {
   thumbnail: string;
   images: string[];
 }
+
+export interface ProductOpts {
+  value: string | number,
+  name: string,
+  id?: number
+}
+
+export interface ProductOptsArr {
+  options: ProductOpts[],
+  defaultValue: string,
+  value: string | number,
+  onChange: (e: string | number) => void,
+}
+
+export interface ISwitcher {
+  quantityPages: number,
+  setPage: React.Dispatch<React.SetStateAction<number>>,
+  page: number
+}

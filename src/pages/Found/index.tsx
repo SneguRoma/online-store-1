@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
-import { MySelect } from '../UI/MySelect';
-import { ItemList } from '../ItemList';
-import { Filters } from '../Filters';
+import { MySelect } from '../../components/UI/MySelect';
+import { ItemList } from '../../components/ItemList';
+import { Filters } from '../../components/Filters';
 import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
-import { setFilterAndSort } from '../Filters/functions';
+import { setFilterAndSort } from '../../components/Filters/functions';
 
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
@@ -38,7 +38,7 @@ export function Found() {
     }    
     else return products;
   },
-  [selectSort, products]);
+  [selectSort, foundProducts]);
     
   const sortedAndSearchedItem = useMemo(() => {  
     if(sortedItem){      

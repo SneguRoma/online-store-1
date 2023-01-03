@@ -1,6 +1,10 @@
+import { Found } from "../pages/Found"
+
 const App: React.FC = () => {
   return (
-    <div></div>
+    <div>
+      <Found/>
+    </div>
   )
 }
 
