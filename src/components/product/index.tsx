@@ -1,5 +1,5 @@
 import { IProduct } from '../../interfaсes';
-
+import React from 'react';
 
 interface ProductProps {
   product: IProduct

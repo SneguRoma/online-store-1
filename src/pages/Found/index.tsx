@@ -3,12 +3,12 @@ import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { Select } from '../../components/UI/select/Select';
 import { ItemList } from '../../components/ItemList';
-import { Filters } from '../../components/filters';
+import { Filters } from '../../components/Filters';
 import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
-import { setFilterAndSort } from '../../components/filters/functions';
-
+import { setFilterAndSort } from '../../components/Filters/functions';
+import React from 'react';
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();

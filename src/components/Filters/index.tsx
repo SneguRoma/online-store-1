@@ -1,10 +1,10 @@
-
+import React from 'react';
 import { products } from '../../data';
 import './index.css';
-import Range from '../UI/range/Range';
+import Range from '../UI/Range/Range';
 import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
-import Checkbox from '../UI/checkbox/Checkbox';
+import Checkbox from '../UI/Checkbox/Checkbox';
 import { filterProps } from './interface';
 
 let categoriesArr: string[] = [];

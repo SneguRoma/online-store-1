@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ],
     "target": "es5",
     "lib": [
       "dom",
@@ -19,14 +23,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+    "jsx": "preserve"
   },
   "include": [
     "src",
-    "src/components", 
+    "src/components",
     "src/custom.d.ts"
   ]
 }
-
-

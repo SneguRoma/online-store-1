@@ -1,6 +1,7 @@
 import { products } from '../../../data';
 import { IProduct } from '../../../interfaсes';
 import './index.css';
+import React from 'react';
 
 interface checkBoxProps {
   item: string
