@@ -52,68 +52,82 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
 
   return (
     <div className='filters'>
-      <fieldset className='my-checkbox' >
-          <legend>Choose your filters:</legend>
-            {categoriesArr.sort().map((category: string, index: number) => 
-          <Checkbox 
-            item={categoriesArr[index]}
-            key = {index}            
-            onChange={checkedCategory}
-            sortedArray = {sortedSearchedAndFilteredItem}
-            value = {'category'/* categoriesArr[index] */} />)}
-      </fieldset>
-      <fieldset className='my-checkbox'>
-          <legend>Choose your filters:</legend>
-            {brandsArr.sort().map((brand: string, index: number) => 
-          <Checkbox
-            item={brandsArr[index]}
-            key = {index} 
-            onChange={checkedBrand}
-            sortedArray = {sortedSearchedAndFilteredItem}
-            value = {'brand'/* sArr[index] */} />)}
-      </fieldset>
-      <div className="range-block price-block">
-        <div className="range-values">
-          <p className='min-range'> {minPriceBound}</p>
-          <p className='max-range'>{maxPriceBound}</p>
-        </div>  
-        <Range 
-          value = {setBounds.priceMin} 
-          min= {priceMin} 
-          max = {priceMax} 
-          step = {priceSet} 
-          onChange = {rangePriceMin} 
-          className = 'my-range min-range-slidebar'/>
-        <Range 
-          value = {setBounds.priceMax} 
-          min= {priceMin} 
-          max = {priceMax} 
-          step = {priceSet} 
-          onChange = {rangePriceMax} 
-          className = 'my-range max-range-slidebar'/>
-        <label className="range-block-name"><strong>Price     </strong>$</label>
+      <div className='filters__category' >
+        <div className='category__title'>Category</div>
+        <div className='category__content'>
+          {categoriesArr.sort().map((category: string, index: number) => 
+            <Checkbox 
+              item={categoriesArr[index]}
+              key = {index}            
+              onChange={checkedCategory}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'category'/* categoriesArr[index] */} />)
+          }
+        </div>
       </div>
-      <div className="range-block stock-block">
-        <div className="range-values">
-          <p className='min-range'> {minStockBound}</p>
-          <p className='max-range'> {maxStockBound}</p>
-        </div>        
-        <Range
-          value = {setBounds.stockMin}
-          min= {stockMin}
-          max = {stockMax}
-          step = {stockSet}
-          onChange = {rangeStockMin}
-          className = 'my-range min-range-slidebar'/>
-        <Range 
-          value = {setBounds.stockMax} 
-          min= {stockMin} 
-          max = {stockMax} 
-          step = {stockSet} 
-          onChange = {rangeStockMax} 
-          className = 'my-range max-range-slidebar'/>
-        <label className="range-block-name"><strong>Stock      </strong>items </label>
-      </div>     
+      <div className='filters__category'>
+        <div className='category__title'>Brand</div>
+        <div className='category__content'>
+          {brandsArr.sort().map((brand: string, index: number) => 
+            <Checkbox
+              item={brandsArr[index]}
+              key = {index} 
+              onChange={checkedBrand}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'brand'/* sArr[index] */} />)
+          }
+        </div>
+      </div>
+      <div className="range-block">
+        <div className='category__title range__title'>Price</div>
+        <div className='range__content'>
+          <div className="range-values">
+            <div className='min-range'> {minPriceBound}</div>
+            <div className='max-range'>{maxPriceBound}</div>
+          </div> 
+          <div className='range__bar'>
+            <Range 
+              value = {setBounds.priceMin} 
+              min = {priceMin} 
+              max = {priceMax} 
+              step = {priceSet} 
+              onChange = {rangePriceMin} 
+              className = 'range__line'/>
+            <Range 
+              value = {setBounds.priceMax} 
+              min = {priceMin} 
+              max = {priceMax} 
+              step = {priceSet} 
+              onChange = {rangePriceMax} 
+              className = 'range__line'/>
+          </div> 
+        </div>
+      </div>
+      <div className="range-block">
+        <div className='category__title range__title'>Stock</div>
+        <div className='range__content'>
+          <div className="range-values">
+            <div className='min-range'> {minStockBound}</div>
+            <div className='max-range'>{maxStockBound}</div>
+          </div> 
+          <div className='range__bar'>
+            <Range
+              value = {setBounds.stockMin}
+              min= {stockMin}
+              max = {stockMax}
+              step = {stockSet}
+              onChange = {rangeStockMin}
+              className = 'range__line'/>
+            <Range 
+              value = {setBounds.stockMax} 
+              min = {stockMin} 
+              max = {stockMax} 
+              step = {stockSet} 
+              onChange = {rangeStockMax} 
+              className = 'range__line'/>
+          </div> 
+        </div>
+      </div>
     </div>
   )
 }

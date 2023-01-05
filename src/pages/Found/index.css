@@ -1,1 +1,49 @@
+.found__wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  column-gap: 2em;
+}
 
+.found__filters-block{
+  height: 100%;
+  flex: 1 0;
+  top: 2em;
+  position: sticky;
+  display: flex;
+  margin-top: 30px;
+}
+
+.found__items-block{
+  flex: 3 0;
+  margin-top: 30px;
+}
+
+.items-block__sort{
+  margin-bottom: 30px;
+}
+
+.input__found{
+  border-color: var(--color-light);
+  cursor: pointer;
+  color: var(--color-body);
+  transition: .3s;
+  padding: 0 20px;
+  outline: none;
+  appearance: none;
+  border: 1px solid var(--color-border-light);
+  border-radius: 6px;
+  height: 40px;
+  font-size: var(--font-size-b1);
+  line-height: var(--line-height-b1);
+  font-family: var(--font-secondary);
+}
+
+.found__items-quantity{
+  font-weight: var(--s-medium);
+  font-size: var(--h5);
+  font-family: var(--font-secondary);
+  line-height: 1.3;
+  color: var(--color-heading);
+}

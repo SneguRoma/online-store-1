@@ -9,6 +9,9 @@ import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
 import { setFilterAndSort } from '../../components/Filters/functions';
 import React from 'react';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import Input from '../../components/UI/input/Input';
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();
@@ -83,29 +86,46 @@ export function Found() {
     }
   
     return (
-    <div className = "container">
-        <div className="sort">          
-          <input 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder='поиск ...'
-            className="found" 
-           />
-          <hr style={{margin: '15px'}}/>           
-          <Select 
-            value={selectSort}
-            onChange={sortItem} 
-            defaultValue ='сортировка' 
-            options = {options}
-                        
-          />        
+      <div className="body">
+      <Header />
+      <main className='main'>
+        <div className = "container">
+          <div className='found__wrapper'>
+            <div className='found__filters-block'>
+              <Filters
+              filter={filter}
+              setFilter = {setFilter}
+              sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
+              />        
+            </div>
+            <div className='found__items-block'>
+              <div className="items-block__sort">          
+                <input 
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder='Search'
+                  className="input__found" 
+                 />    
+                { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 
+                ? 
+                <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 
+                : 
+                <div className="found__items-quantity">Products not found</div>
+                }    
+                <Select 
+                  value={selectSort}
+                  onChange={sortItem} 
+                  defaultValue ='Sorts' 
+                  options = {options}             
+                />        
+              </div>
+
+              <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}/>            
+            </div>
+          </div>
         </div>
-        <Filters
-        filter={filter}
-        setFilter = {setFilter}
-        sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
-        />        
-        <hr style={{margin: '15px'}}/>
-        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}/>            
-    </div>);   
+      </main>
+      <Footer />
+    </div>
+    );   
   }

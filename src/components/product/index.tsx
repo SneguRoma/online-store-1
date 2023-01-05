@@ -13,7 +13,7 @@ export function ProductElement({product}: ProductProps){
   return (    
     <div className='product-card'>    
       <a href="#" className='product-card__image-link'>
-        <div className='product-card__discount'>{Math.round(product.discountPercentage)}% Off</div>   
+        {(product.discountPercentage) && <div className='product-card__discount'>{Math.round(product.discountPercentage)}% Off</div>}
         <div className='product-card__stock'>{product.stock} Left</div>
         <div className='product-card__image' style={{backgroundImage: `url(${product.thumbnail})`}}></div>
       </a>

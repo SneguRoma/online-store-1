@@ -1,5 +1,5 @@
-import './index.css';
 import React from 'react';
+import classes from './Range.module.css'
 
 interface rangeProps {
   min: number,
@@ -10,10 +10,10 @@ interface rangeProps {
   className: string 
 }
 
-function Range({value, onChange, min, max, step,className}: rangeProps) {
+function Range({value, onChange, min, max, step, className}: rangeProps) {
   return (
     <div className={className}>        
-        <input className= 'my-range-slidebar'
+        <input className= {classes.rangebar}
           list="tickmarks"
           value={value}
           onChange={event => onChange(event.target.value)}

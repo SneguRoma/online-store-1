@@ -127,7 +127,7 @@
 }
 
 .product-card__category-brand{
-  font-size: var(--font-size-b1);
+  font-size: var(--font-size-b2);
   line-height: var(--line-height-b1);
   font-weight: var(--p-regular);
   color: var(--color-body);
