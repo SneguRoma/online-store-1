@@ -1,3 +1,4 @@
+import React from 'react';
 import CartItem from '../cart-item';
 import './index.css';
 import { IProduct } from '../../interfaсes';

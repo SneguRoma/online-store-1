@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import classes from "./Button.module.css";
 

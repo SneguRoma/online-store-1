@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
@@ -8,10 +9,12 @@ import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
 import { setFilterAndSort } from '../../components/Filters/functions';
-import React from 'react';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
-import Input from '../../components/UI/input/Input';
+import gridIcon from '../../images/icons/grid.svg';
+import rowIcon from '../../images/icons/row.svg'
+
+
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();
@@ -74,16 +77,16 @@ export function Found() {
    
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
    
- 
-      
     return checkedStockedFiltered;         
     }      
   }, [filter, sortedAndSearchedItem]);
   
   
-    const sortItem = (sort: string | number) => {
-      if(typeof sort === 'string') setSelectSort(sort);     
-    }
+  const sortItem = (sort: string | number) => {
+    if(typeof sort === 'string') setSelectSort(sort);     
+  }
+
+  const [changeDirection, setChangeDirection] = useState(true);
   
     return (
       <div className="body">
@@ -100,27 +103,35 @@ export function Found() {
             </div>
             <div className='found__items-block'>
               <div className="items-block__sort">          
-                <input 
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  placeholder='Search'
-                  className="input__found" 
-                 />    
-                { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 
+              <Select 
+                value={selectSort}
+                onChange={sortItem} 
+                defaultValue ='Sorts' 
+                options = {options}             
+              />
+              { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 
                 ? 
                 <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 
                 : 
-                <div className="found__items-quantity">Products not found</div>
-                }    
-                <Select 
-                  value={selectSort}
-                  onChange={sortItem} 
-                  defaultValue ='Sorts' 
-                  options = {options}             
-                />        
-              </div>
+                <div className="found__items-quantity">Items not found</div>
+              }    
+              <input 
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder='Search'
+                className="input__found" 
+               />    
+              <div className="direction" onClick={() => setChangeDirection(prev => !prev)}>
+                  {changeDirection
+                  ?
+                  <img src={gridIcon} alt="" />
+                  :
+                  <img src={rowIcon} alt="" />
+                }
+              </div>    
+            </div>
 
-              <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}/>            
+              <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            
             </div>
           </div>
         </div>

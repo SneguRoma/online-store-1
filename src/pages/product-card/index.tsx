@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { IProduct } from "../../interfaсes"
 import Button from "../../components/UI/button/Button";

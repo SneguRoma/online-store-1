@@ -1,3 +1,4 @@
+import React from "react";
 import Button from '../../components/UI/button/Button';
 import './index.css';
 import ImageNotFound from '../../images/picture/404.png';

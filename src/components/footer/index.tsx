@@ -1,3 +1,4 @@
+import React from 'react';
 import './index.css';
 import github from '../../images/icons/github.svg';
 import rsSchool from '../../images/icons/rs_school.svg';

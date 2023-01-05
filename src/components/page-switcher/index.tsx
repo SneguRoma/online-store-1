@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { ISwitcher } from '../../interfaсes';
 import './index.css';

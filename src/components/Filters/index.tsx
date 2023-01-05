@@ -6,6 +6,7 @@ import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
 import Checkbox from '../UI/Checkbox/Checkbox';
 import { filterProps } from './interface';
+import Button from '../UI/button/Button';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -127,6 +128,10 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
               className = 'range__line'/>
           </div> 
         </div>
+      </div>
+      <div className='filters__clear-save'>
+        <Button>Reset filters</Button>
+        <Button>Save filters</Button>
       </div>
     </div>
   )

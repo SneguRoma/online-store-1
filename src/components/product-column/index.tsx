@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IProduct } from '../../interfaсes';
+import Button from '../UI/button/Button';
 import './index.css';
 
 interface ProductProps {
@@ -7,18 +8,41 @@ interface ProductProps {
 }
 
 export function ProductElement({product}: ProductProps){
+
+  const [addCart, setAddCart] = useState(false);
+
   function ratingStars (rating:number){
     return ((100 * rating) / 5);
   }
+
+  function buttonColor(addCart:boolean){
+    let res = {backgroundColor: 'var(--color-primary)'};
+    if(addCart){
+      return res = {backgroundColor: 'var(--color-secondary)'}
+    }else{
+      return res = {backgroundColor: 'var(--color-primary)'}
+    }
+  }
+
+
   return (    
     <div className='product-card'>    
       <a href="#" className='product-card__image-link'>
         {(product.discountPercentage) && <div className='product-card__discount'>{Math.round(product.discountPercentage)}% Off</div>}
         <div className='product-card__stock'>{product.stock} Left</div>
-        <div className='product-card__image' style={{backgroundImage: `url(${product.thumbnail})`}}></div>
+        <div className='product-card__image__wrapper'>
+          <div className='product-card__image' style={{backgroundImage: `url(${product.thumbnail})`}}></div>
+          <Button className='product-card__add-cart' style={buttonColor(addCart)} onClick={(e)=>{
+            e.preventDefault();
+            setAddCart(prev => !prev)}}>
+            {!addCart ? `Add to Cart` : `Drop from Cart`}
+          </Button>
+        </div>
       </a>
       <div className="product-card__info">
-        <div className='product-card__title'>{product.title}</div>
+        <a href="" className='product-card__title'>
+          {product.title}
+        </a>
         <div className='product-card__rating'>
           <div className='product-card__body'>
             <div className='product-card__active' style={{width: `${(ratingStars(product.rating))}%`}}></div>

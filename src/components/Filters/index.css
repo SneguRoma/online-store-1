@@ -98,6 +98,20 @@
   justify-content: space-between;
 }
 
+.filters__clear-save{
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2em;
+}
+
+.filters__clear-save .button{
+  padding: 10px 15px;
+}
 
 
 

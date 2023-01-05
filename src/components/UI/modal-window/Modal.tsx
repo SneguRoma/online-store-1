@@ -1,3 +1,4 @@
+import React from "react";
 import classes from './Modal.module.css';
 
 // TODO: add type for module
