@@ -31,7 +31,7 @@ export function Found() {
     stockMin: maxminprice.stockMin, 
     stockMax: maxminprice.stockMax
   });
-    
+   console.log('found', filter) 
   const sortedItem = useMemo(() => {    
     if(selectSort) {    
       return sortItems(foundProducts, selectSort);
@@ -66,12 +66,12 @@ export function Found() {
     brandArray = Array.from(brandSet);
 
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);   
-
+    console.log(filter)
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
    
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
    
- 
+    /* setmaxminprice(setFilterAndSort(checkedStockedFiltered)); */
       
     return checkedStockedFiltered;         
     }      

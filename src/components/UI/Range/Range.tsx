@@ -8,13 +8,15 @@ interface rangeProps {
   value: number,
   onChange: any,
   className: string 
+  onInput:boolean
 }
 
-function Range({value, onChange, min, max, step,className}: rangeProps) {
+function Range({value, onChange, min, max, step,className, onInput}: rangeProps) {
   return (
     <div className={className}>        
         <input className= 'my-range-slidebar'
           list="tickmarks"
+          onInput = {() => true}
           value={value}
           onChange={event => onChange(event.target.value)}
           type="range"          
