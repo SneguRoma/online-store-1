@@ -1,6 +1,7 @@
-import React from 'react'
-import { ProductElement } from '../product'
-import { IProduct } from '../../interfaсes'
+import React from 'react';
+import { ProductElement } from '../product';
+import { IProduct } from '../../interfaсes';
+import './index.css';
 
 interface ItemProps {
   items: IProduct[]

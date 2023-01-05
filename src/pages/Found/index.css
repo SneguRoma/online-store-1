@@ -1,13 +1,1 @@
-.itemlist-found{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-}
-
-.product_image{
-  max-width: 200px;
-}
-
-.product_info{
-  max-width: 200px;
-}
 
