@@ -7,7 +7,7 @@ interface rangeProps {
   step: number,
   value: number,
   onChange: any,
-  className: string 
+  className: string  
 }
 
 function Range({value, onChange, min, max, step, className}: rangeProps) {
@@ -15,8 +15,7 @@ function Range({value, onChange, min, max, step, className}: rangeProps) {
     <div className={className}>        
         <input className= {classes.rangebar}
           list="tickmarks"
-          value={value}
-          
+          value={value}          
           onChange={event => onChange(event.target.value)}
           type="range"          
           name="price" 

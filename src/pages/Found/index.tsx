@@ -9,11 +9,12 @@ import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
 import { setFilterAndSort } from '../../components/Filters/functions';
 import React from 'react';
+import Button from '../../components/UI/button/Button';
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();
 let brandArray: string[] = [];
-/* let maxmin = setFilterAndSort(products); */
+let key = 1;
 
 export function Found() {  
   
@@ -32,6 +33,27 @@ export function Found() {
     stockMin: maxminprice.stockMin, 
     stockMax: maxminprice.stockMax
   });
+
+  const resetBounds = setFilterAndSort(products);
+  const resetFilters = () => {    
+    key +=1
+    setFilter({category: '',
+      checked: true,
+      brand: '', 
+      checkBrand: true, 
+      priceMin: resetBounds.priceMin,
+      priceMax: resetBounds.priceMax,          
+      stockMin: resetBounds.stockMin, 
+      stockMax: resetBounds.stockMax
+    });
+    
+    brandArray = [];
+    categoryArray = [];
+    categorySet = new Set();
+    brandSet = new Set();
+    setSearch('');
+    setSelectSort('')
+  };
     
   const sortedItem = useMemo(() => {    
     if(selectSort) {    
@@ -39,7 +61,7 @@ export function Found() {
     }    
     else return products;
   },
-  [selectSort, foundProducts]);
+  [selectSort, foundProducts, resetBounds,key]);
     
   const sortedAndSearchedItem = useMemo(() => {  
     if(sortedItem){      
@@ -51,7 +73,7 @@ export function Found() {
       item.rating.toString().toLowerCase().includes(search))
     }
     
-  }, [search, sortedItem]);
+  }, [search, sortedItem,resetBounds, key]);
 
   const sortedSearchedAndFilteredItem = useMemo(() => {
     if(sortedAndSearchedItem){
@@ -65,11 +87,8 @@ export function Found() {
       else brandSet.delete(filter.brand);
     } 
     brandArray = Array.from(brandSet);
-    /* console.log('filter comin', filter) */
-    const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);   
-    
-      /* let setBounds = setFilterAndSort(sortedSearchedAndFilteredItems); */
-     /*  setFilter({...filter, priceMin: setBounds.priceMin, priceMax: setBounds.priceMax, stockMax: setBounds.stockMax, stockMin: setBounds.stockMin}); */
+   
+    const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);      
      
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
      /* setBounds.priceMax =filter.priceMax 
@@ -88,12 +107,12 @@ export function Found() {
     /* console.log('filter comout', filter)  */
     return checkedStockedFiltered;         
     }      
-  }, [filter, sortedAndSearchedItem]);
+  }, [filter, sortedAndSearchedItem,resetBounds,key]);
   
   
-    const sortItem = (sort: string | number) => {
-      if(typeof sort === 'string') setSelectSort(sort);     
-    }
+  const sortItem = (sort: string | number) => {
+    if(typeof sort === 'string') setSelectSort(sort);     
+  }
   
     return (
     <div className = "container">
@@ -109,16 +128,20 @@ export function Found() {
             value={selectSort}
             onChange={sortItem} 
             defaultValue ='сортировка' 
-            options = {options}
-                        
+            options = {options}                        
           />        
         </div>
         <Filters
+        key ={key}
         filter={filter}
         setFilter = {setFilter}
         sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
         />        
         <hr style={{margin: '15px'}}/>
+        <div className='filters__clear-save'>
+          <Button onClick={resetFilters}>Reset filters</Button>
+          <Button>Save filters</Button>
+        </div>
         <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
     </div>);   
-  }
+}
