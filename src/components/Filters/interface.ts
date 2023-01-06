@@ -3,7 +3,8 @@ import { IProduct } from "../../interfaсes"
 export interface filterProps {  
   filter: Ifilter
   setFilter: any
-  sortedSearchedAndFilteredItem: IProduct[]  
+  sortedSearchedAndFilteredItem: IProduct[] 
+  key: number 
 }
 export interface Ifilter {  
   category: string
