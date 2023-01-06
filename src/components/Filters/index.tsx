@@ -25,10 +25,11 @@ if (brandsArr.length === 0) {
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
   
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
-  const minPriceBound = setMinBound(filter.priceMin, filter.priceMax);
-  const maxPriceBound = setMaxBound(filter.priceMin, filter.priceMax);
-  const minStockBound = setMinBound(filter.stockMin, filter.stockMax);
-  const maxStockBound = setMaxBound(filter.stockMin, filter.stockMax);
+  const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
+  const maxPriceBound = setMaxBound(setBounds.priceMin, setBounds.priceMax);
+  const minStockBound = setMinBound(setBounds.stockMin, setBounds.stockMax);
+  const maxStockBound = setMaxBound(setBounds.stockMin, setBounds.stockMax);
+  console.log('setprice', setBounds.priceMin, setBounds.priceMax)
   
  
    
@@ -83,19 +84,20 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
         <div className='category__title range__title'>Price</div>
         <div className='range__content'>
           <div className="range-values">
-            <div className='min-range'> {minPriceBound}</div>
-            <div className='max-range'>{maxPriceBound}</div>
+            <div className='min-range'> {(minPriceBound === 0) ? filter.priceMin: minPriceBound}</div>
+            <div className='found-range'> {(setBounds.found === 0) ? 'not found': "found" + setBounds.found }</div>
+            <div className='max-range'>{(maxPriceBound===0)? filter.priceMax : maxPriceBound}</div>
           </div> 
           <div className='range__bar'>
             <Range 
-              value = {(setBounds.priceMin === 0/*  || setBounds.priceMin < filter.priceMin */)? filter.priceMin : setBounds.priceMin} 
+              value = {(minPriceBound === 0)? filter.priceMin : minPriceBound /* (setBounds.priceMin === 0 || setBounds.priceMin > filter.priceMin )? filter.priceMin : setBounds.priceMin */} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
               onChange = {rangePriceMin} 
               className = 'range__line'/>
             <Range 
-              value = {(setBounds.priceMax === 0/*  || setBounds.priceMax > filter.priceMax */)? filter.priceMax : setBounds.priceMax} 
+              value = {(maxPriceBound === 0)? filter.priceMax : maxPriceBound/* (setBounds.priceMax === 0 || setBounds.priceMax < filter.priceMax )? filter.priceMax : setBounds.priceMax */} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
@@ -108,19 +110,19 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
         <div className='category__title range__title'>Stock</div>
         <div className='range__content'>
           <div className="range-values">
-            <div className='min-range'> {minStockBound}</div>
-            <div className='max-range'>{maxStockBound}</div>
+            <div className='min-range'> {(minStockBound === 0)? filter.stockMin : minStockBound}</div>
+            <div className='max-range'>{(maxStockBound === 0)? filter.stockMax : maxStockBound}</div>
           </div> 
           <div className='range__bar'>
             <Range
-              value = {(setBounds.stockMin === 0/*  || setBounds.stockMin < filter.stockMin */)? filter.stockMin : setBounds.stockMin}
+              value = {(minStockBound === 0)? filter.stockMin : minStockBound}
               min= {stockMin}
               max = {stockMax}
               step = {stockSet}
               onChange = {rangeStockMin}
               className = 'range__line'/>
             <Range 
-              value = {(setBounds.stockMax === 0/*  || setBounds.stockMax > filter.stockMax */)? filter.stockMax : setBounds.stockMax} 
+              value = {(maxStockBound === 0)? filter.stockMax : maxStockBound} 
               min = {stockMin} 
               max = {stockMax} 
               step = {stockSet} 
