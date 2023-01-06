@@ -13,6 +13,7 @@ import Modal from '../../components/UI/modal-window/Modal';
 import Billing from '../../components/billing-card';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface IPromo{
   id: number, 
@@ -95,14 +96,17 @@ const Cart = () => {
 
   const [time, setTime] = useState(3);
   const [ timerActive, setTimerActive ] = useState(false);
+
+  const navigate = useNavigate();
    
   useEffect(() => {
     if (time > 0 && timerActive) {
       setTimeout(setTime, 1000, time - 1);
-    } else {
+    } else if(time === 0) {
       setTimerActive(false);
       setModal(false);
       setChangeModal(false);
+      navigate('/');
     }
     
   }, [ time, timerActive ]);  
@@ -190,7 +194,7 @@ const Cart = () => {
                     </div>     
                     { getPromo &&
                       <div className='promo__new-code' key={getPromo.id}>
-                        <div className='new-code__title'>Apply Code "{getPromo?.title}" - {getPromo?.value}%</div>
+                        <div className='new-code__title'>Apply Code "{getPromo.title}" - {getPromo.value}%</div>
                         <button className='new-code__button' onClick={addPromoCode}>add</button>
                       </div>
                       }

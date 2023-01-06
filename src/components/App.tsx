@@ -4,14 +4,14 @@ import { Found } from "../pages/Found"
 
 const App: React.FC = () => {
   return (
-    <div>
+   /*  <div>
       <Found/>
-    </div>
-    /*{ <BrowserRouter>
+    </div> */
+     <BrowserRouter>
     <Route>
       
     </Route>
-    </BrowserRouter> }*/
+    </BrowserRouter> 
   )
 }
 

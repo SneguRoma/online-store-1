@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaсes';
 import './index.css';
 
@@ -43,13 +44,13 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
     <div className='product'>
     <div className='product__position'>{ id }</div>
     <div className='product__info'>
-      <div className='product__thumbnail'>
+      <Link to={`/items/${product.id}`} className='product__thumbnail'>
         <img src={product.thumbnail} alt="" className='product__img'/>
-      </div>
+      </Link>
       <div className='product__info-block'>
-        <div className='product_title'>
+        <Link to={`/items/${product.id}`} className='product_title'>
           {product.title}
-        </div>
+        </Link>
         <div className='product_description'>
           {product.description}
         </div>
