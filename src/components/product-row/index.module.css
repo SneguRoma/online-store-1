@@ -69,6 +69,8 @@
   height: 120px;
   width: 120px;
   object-fit: cover;  
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
 }
 
 
