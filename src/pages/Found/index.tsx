@@ -10,6 +10,11 @@ import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } fro
 import { setFilterAndSort } from '../../components/Filters/functions';
 import React from 'react';
 import Button from '../../components/UI/button/Button';
+import Header from '../../components/header';	
+import Footer from '../../components/footer';	
+import gridIcon from '../../images/icons/grid.svg';	
+import rowIcon from '../../images/icons/row.svg'	
+
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();
@@ -113,9 +118,73 @@ export function Found() {
   const sortItem = (sort: string | number) => {
     if(typeof sort === 'string') setSelectSort(sort);     
   }
+  const [changeDirection, setChangeDirection] = useState(true);
   
     return (
-    <div className = "container">
+<div className="body">	   
+  <Header />	                 
+  <main className='main'>	          
+    <div className = "container">	            
+      <div className='found__wrapper'>	            
+        <div className='found__filters-block'>	            
+          <Filters
+           key ={key}	            
+          filter={filter}	          
+          setFilter = {setFilter}	                   
+          sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
+          /> 
+                	            
+        </div>	            
+        <div className='found__items-block'>	            
+          <div className="items-block__sort">          	         
+          <Select 	
+            value={selectSort}	          
+            onChange={sortItem} 	
+            defaultValue ='Sorts' 	
+            options = {options}             	
+          />	
+          { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 	
+            ? 	
+            <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 	
+            : 	
+            <div className="found__items-quantity">Items not found</div>	
+          }    	
+          <input 	
+            value={search}	
+            onChange={e => setSearch(e.target.value)}	
+            placeholder='Search'	
+            className="input__found" 	
+           />    	
+          <div className="direction" onClick={() => setChangeDirection(prev => !prev)}>	
+              {changeDirection	
+              ?	
+              <img src={gridIcon} alt="" />	
+              :	
+              <img src={rowIcon} alt="" />	
+            }	
+          </div>    	
+        </div>
+        <div className='filters__clear-save'>
+          <Button onClick={resetFilters}>Reset filters</Button>
+          <Button>Save filters</Button>
+        </div> 
+          <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            	
+        </div>	
+      </div>	
+    </div>	       
+  </main>	        
+  <Footer />	       
+</div>
+      
+
+
+    
+    
+    );   
+}
+
+
+{/* <div className = "container">
         <div className="sort">          
           <input 
             value={search}
@@ -143,5 +212,4 @@ export function Found() {
           <Button>Save filters</Button>
         </div>
         <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
-    </div>);   
-}
+    </div> */}
