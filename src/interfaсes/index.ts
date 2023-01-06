@@ -34,3 +34,9 @@ export interface ISwitcher {
   setPage: React.Dispatch<React.SetStateAction<number>>,
   page: number
 }
+
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import type { RootState, AppDispatch } from '../redux/index'
+
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

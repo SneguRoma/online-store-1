@@ -3,17 +3,16 @@ import './index.css';
 import Button from '../../components/UI/button/Button';
 import Input from '../../components/UI/input/Input';
 import CartList from '../../components/cart-list';
-import { products } from '../../data/index';
 import { Select } from '../../components/UI/select/Select';
 import { useEffect, useState } from 'react';
 import usePagination from '../../hooks/usePagination';
 import PageSwitcher from '../../components/page-switcher';
-import { IProduct } from '../../interfaсes';
+import { IProduct, useAppSelector } from '../../interfaсes';
 import Modal from '../../components/UI/modal-window/Modal';
 import Billing from '../../components/billing-card';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface IPromo{
   id: number, 
@@ -25,6 +24,8 @@ interface IPromo{
 const Cart = () => {
   
   // TODO: Доделать добавление количества товара
+
+  const products = useAppSelector((state) => state.cart.itemsInCart);
 
   const [items, setItems] = useState(products);
   const [limit, setLimit] = useState(5);

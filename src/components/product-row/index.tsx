@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { IProduct } from '../../interfaсes';
+import { IProduct, useAppSelector } from '../../interfaсes';
+import { setItemInCart, deleteItemFromCart } from '../../redux/cart/reducer';
 import Button from '../UI/button/Button';
 import classes from './index.module.css';
 
@@ -24,6 +26,21 @@ export function ProductRowElement({product}: ProductProps){
       return res = {backgroundColor: 'var(--color-primary)'}
     }
   }
+
+  const items = useAppSelector((state) => state.cart.itemsInCart);
+  const dispatch = useDispatch();
+
+  const addItems = () => {
+    dispatch(setItemInCart(product))
+  }
+
+  const removeItems = () => {
+    dispatch(deleteItemFromCart(product))
+  }
+
+  useEffect(()=>{
+    if(items.some(elem =>  elem === product)) setAddCart(true);
+  })
 
 
   return (    
@@ -58,6 +75,7 @@ export function ProductRowElement({product}: ProductProps){
     <div className={classes['product__price']}>${ product.price }</div>
     <Button className={classes['product-card__add-cart']} style={buttonColor(addCart)} onClick={(e)=>{
         e.preventDefault();
+        !addCart ? addItems() : removeItems();
         setAddCart(prev => !prev)}}>
         {!addCart ? `Add to Cart` : `Drop from Cart`}
     </Button>
