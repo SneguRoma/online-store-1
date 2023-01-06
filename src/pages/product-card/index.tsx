@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { IProduct } from "../../interfaсes"
+import { IProduct, useAppSelector } from "../../interfaсes"
 import Button from "../../components/UI/button/Button";
 import './index.css';
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import { useParams } from "react-router-dom";
 import { products } from "../../data";
+import { useDispatch } from "react-redux";
+import { setItemInCart, deleteItemFromCart } from "../../redux/cart/reducer";
 
 export function Product () {
   const handleClick: React.MouseEventHandler<HTMLImageElement> = e => {
@@ -24,6 +26,33 @@ export function Product () {
   }
 
   const [src, setSrc] = useState(product.images[0]);
+
+  const [addCart, setAddCart] = useState(false);
+
+  function buttonColor(addCart:boolean){
+    let res = {backgroundColor: 'var(--color-primary)'};
+    if(addCart){
+      return res = {backgroundColor: 'var(--color-secondary)'}
+    }else{
+      return res = {backgroundColor: 'var(--color-primary)'}
+    }
+  }
+
+  const items = useAppSelector((state) => state.cart.itemsInCart);
+  const dispatch = useDispatch();
+
+  const addItems = () => {
+    dispatch(setItemInCart(product))
+  }
+
+  const removeItems = () => {
+    dispatch(deleteItemFromCart(product))
+  }
+
+  useEffect(()=>{
+    if(items.some(elem =>  elem === product)) setAddCart(true);
+  })
+
   
   return (
     <div className="body">
@@ -72,7 +101,12 @@ export function Product () {
               <p className="description">{ product.description }</p>
               <span className="card__category__title">Category: { product.category }</span>
               <div className="card__buttons">
-                <Button className="button__add">Add to Cart</Button>
+                <Button className="button__add" style={buttonColor(addCart)} onClick={(e)=>{
+                  e.preventDefault();
+                  !addCart ? addItems() : removeItems();
+                  setAddCart(prev => !prev)}}>
+                    {!addCart ? `Add to Cart` : `Drop from Cart`}
+                </Button>
                 <Button className="button__buy" style={{ backgroundColor: "#FF8F3C"}}>Buy Now</Button>
               </div> 
             </div>
