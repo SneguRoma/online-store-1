@@ -107,6 +107,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 2em;
+  margin-bottom: 30px;
 }
 
 .filters__clear-save .button{
