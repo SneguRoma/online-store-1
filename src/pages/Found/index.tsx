@@ -1,4 +1,3 @@
-import React from "react";
 import { useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
@@ -9,12 +8,7 @@ import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
 import { setFilterAndSort } from '../../components/Filters/functions';
-import Header from '../../components/header';
-import Footer from '../../components/footer';
-import gridIcon from '../../images/icons/grid.svg';
-import rowIcon from '../../images/icons/row.svg'
-
-
+import React from 'react';
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
 let brandSet: Set<string> = new Set();
@@ -26,6 +20,7 @@ export function Found() {
   const [foundProducts, setProducts] = useState(products);
   const [selectSort, setSelectSort] = useState('');
   const [search, setSearch] = useState('');
+  
   const [maxminprice, setmaxminprice] = useState(setFilterAndSort(products));
   const [filter, setFilter]=useState({
     category: '',
@@ -72,71 +67,57 @@ export function Found() {
     brandArray = Array.from(brandSet);
 
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);   
-
+    
+      let setBounds = setFilterAndSort(sortedSearchedAndFilteredItems);
+     /*  setFilter({...filter, priceMin: setBounds.priceMin, priceMax: setBounds.priceMax, stockMax: setBounds.stockMax, stockMin: setBounds.stockMin}); */
+     
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
-   
+     /* setBounds.priceMax =filter.priceMax 
+    if(setBounds.priceMin < filter.priceMin)  filter.priceMin =setBounds.priceMin */
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
-   
+   if(setBounds.priceMax <= filter.priceMax)  filter.priceMax = setBounds.priceMax
+    if(setBounds.priceMin >= filter.priceMin)  filter.priceMin = setBounds.priceMin
+    if(setBounds.priceMax <= filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBounds.priceMax
+    if(setBounds.priceMin >= filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBounds.priceMin
+
+    if(setBounds.stockMax <= filter.stockMax)  filter.stockMax = setBounds.stockMax
+    if(setBounds.stockMin >= filter.stockMin)  filter.stockMin = setBounds.stockMin
+    if(setBounds.stockMax <= filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBounds.stockMax
+    if(setBounds.stockMin >= filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBounds.stockMin
+      
     return checkedStockedFiltered;         
     }      
   }, [filter, sortedAndSearchedItem]);
   
   
-  const sortItem = (sort: string | number) => {
-    if(typeof sort === 'string') setSelectSort(sort);     
-  }
-
-  const [changeDirection, setChangeDirection] = useState(true);
+    const sortItem = (sort: string | number) => {
+      if(typeof sort === 'string') setSelectSort(sort);     
+    }
   
     return (
-      <div className="body">
-      <Header />
-      <main className='main'>
-        <div className = "container">
-          <div className='found__wrapper'>
-            <div className='found__filters-block'>
-              <Filters
-              filter={filter}
-              setFilter = {setFilter}
-              sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
-              />        
-            </div>
-            <div className='found__items-block'>
-              <div className="items-block__sort">          
-              <Select 
-                value={selectSort}
-                onChange={sortItem} 
-                defaultValue ='Sorts' 
-                options = {options}             
-              />
-              { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 
-                ? 
-                <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 
-                : 
-                <div className="found__items-quantity">Items not found</div>
-              }    
-              <input 
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder='Search'
-                className="input__found" 
-               />    
-              <div className="direction" onClick={() => setChangeDirection(prev => !prev)}>
-                  {changeDirection
-                  ?
-                  <img src={gridIcon} alt="" />
-                  :
-                  <img src={rowIcon} alt="" />
-                }
-              </div>    
-            </div>
-
-              <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            
-            </div>
-          </div>
+    <div className = "container">
+        <div className="sort">          
+          <input 
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder='поиск ...'
+            className="found" 
+           />
+          <hr style={{margin: '15px'}}/>           
+          <Select 
+            value={selectSort}
+            onChange={sortItem} 
+            defaultValue ='сортировка' 
+            options = {options}
+                        
+          />        
         </div>
-      </main>
-      <Footer />
-    </div>
-    );   
+        <Filters
+        filter={filter}
+        setFilter = {setFilter}
+        sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
+        />        
+        <hr style={{margin: '15px'}}/>
+        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
+    </div>);   
   }

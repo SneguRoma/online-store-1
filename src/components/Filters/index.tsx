@@ -24,11 +24,11 @@ if (brandsArr.length === 0) {
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
   
-  const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem);
-  const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
-  const maxPriceBound = setMaxBound(setBounds.priceMin, setBounds.priceMax);
-  const minStockBound = setMinBound(setBounds.stockMin, setBounds.stockMax);
-  const maxStockBound = setMaxBound(setBounds.stockMin, setBounds.stockMax);
+  const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
+  const minPriceBound = setMinBound(filter.priceMin, filter.priceMax);
+  const maxPriceBound = setMaxBound(filter.priceMin, filter.priceMax);
+  const minStockBound = setMinBound(filter.stockMin, filter.stockMax);
+  const maxStockBound = setMaxBound(filter.stockMin, filter.stockMax);
   
  
    
@@ -88,14 +88,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           </div> 
           <div className='range__bar'>
             <Range 
-              value = {setBounds.priceMin} 
+              value = {filter.priceMin} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
               onChange = {rangePriceMin} 
               className = 'range__line'/>
             <Range 
-              value = {setBounds.priceMax} 
+              value = {filter.priceMax} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
@@ -113,14 +113,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           </div> 
           <div className='range__bar'>
             <Range
-              value = {setBounds.stockMin}
+              value = {filter.stockMin}
               min= {stockMin}
               max = {stockMax}
               step = {stockSet}
               onChange = {rangeStockMin}
               className = 'range__line'/>
             <Range 
-              value = {setBounds.stockMax} 
+              value = {filter.stockMax} 
               min = {stockMin} 
               max = {stockMax} 
               step = {stockSet} 
