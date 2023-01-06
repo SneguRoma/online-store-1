@@ -16,6 +16,7 @@ function Range({value, onChange, min, max, step, className}: rangeProps) {
         <input className= {classes.rangebar}
           list="tickmarks"
           value={value}
+          
           onChange={event => onChange(event.target.value)}
           type="range"          
           name="price" 

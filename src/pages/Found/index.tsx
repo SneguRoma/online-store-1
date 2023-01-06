@@ -65,26 +65,27 @@ export function Found() {
       else brandSet.delete(filter.brand);
     } 
     brandArray = Array.from(brandSet);
-
+    /* console.log('filter comin', filter) */
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);   
     
-      let setBounds = setFilterAndSort(sortedSearchedAndFilteredItems);
+      /* let setBounds = setFilterAndSort(sortedSearchedAndFilteredItems); */
      /*  setFilter({...filter, priceMin: setBounds.priceMin, priceMax: setBounds.priceMax, stockMax: setBounds.stockMax, stockMin: setBounds.stockMin}); */
      
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
      /* setBounds.priceMax =filter.priceMax 
     if(setBounds.priceMin < filter.priceMin)  filter.priceMin =setBounds.priceMin */
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
-   if(setBounds.priceMax <= filter.priceMax)  filter.priceMax = setBounds.priceMax
-    if(setBounds.priceMin >= filter.priceMin)  filter.priceMin = setBounds.priceMin
-    if(setBounds.priceMax <= filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBounds.priceMax
-    if(setBounds.priceMin >= filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBounds.priceMin
-
-    if(setBounds.stockMax <= filter.stockMax)  filter.stockMax = setBounds.stockMax
-    if(setBounds.stockMin >= filter.stockMin)  filter.stockMin = setBounds.stockMin
-    if(setBounds.stockMax <= filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBounds.stockMax
-    if(setBounds.stockMin >= filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBounds.stockMin
-      
+    /* let setBoundsPrice = setFilterAndSort(sortedSearchedAndFilteredItems); */
+    /* if(setBoundsPrice.priceMax < filter.priceMax)  filter.priceMax = setBoundsPrice.priceMax
+    if(setBoundsPrice.priceMin > filter.priceMin)  filter.priceMin = setBoundsPrice.priceMin
+    if(setBoundsPrice.priceMax < filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBoundsPrice.priceMax
+    if(setBoundsPrice.priceMin > filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBoundsPrice.priceMin */
+   /*  let setBoundsStock = setFilterAndSort(sortedSearchedAndFilteredItems); */
+    /* if(setBoundsStock.stockMax < filter.stockMax)  filter.stockMax = setBoundsStock.stockMax
+    if(setBoundsStock.stockMin > filter.stockMin)  filter.stockMin = setBoundsStock.stockMin
+    if(setBoundsStock.stockMax < filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBoundsStock.stockMax
+    if(setBoundsStock.stockMin > filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBoundsStock.stockMin */
+    /* console.log('filter comout', filter)  */
     return checkedStockedFiltered;         
     }      
   }, [filter, sortedAndSearchedItem]);

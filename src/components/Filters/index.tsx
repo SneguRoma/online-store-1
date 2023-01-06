@@ -88,14 +88,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           </div> 
           <div className='range__bar'>
             <Range 
-              value = {filter.priceMin} 
+              value = {(setBounds.priceMin === 0/*  || setBounds.priceMin < filter.priceMin */)? filter.priceMin : setBounds.priceMin} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
               onChange = {rangePriceMin} 
               className = 'range__line'/>
             <Range 
-              value = {filter.priceMax} 
+              value = {(setBounds.priceMax === 0/*  || setBounds.priceMax > filter.priceMax */)? filter.priceMax : setBounds.priceMax} 
               min = {priceMin} 
               max = {priceMax} 
               step = {priceSet} 
@@ -113,14 +113,14 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
           </div> 
           <div className='range__bar'>
             <Range
-              value = {filter.stockMin}
+              value = {(setBounds.stockMin === 0/*  || setBounds.stockMin < filter.stockMin */)? filter.stockMin : setBounds.stockMin}
               min= {stockMin}
               max = {stockMax}
               step = {stockSet}
               onChange = {rangeStockMin}
               className = 'range__line'/>
             <Range 
-              value = {filter.stockMax} 
+              value = {(setBounds.stockMax === 0/*  || setBounds.stockMax > filter.stockMax */)? filter.stockMax : setBounds.stockMax} 
               min = {stockMin} 
               max = {stockMax} 
               step = {stockSet} 
