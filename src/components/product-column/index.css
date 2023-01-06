@@ -24,18 +24,19 @@
   top: 0;
   background-position: 50% 50%;
   background-size: cover;
-  border-radius: 6px;
-  border: 1px solid #f0f0f0;
   transition: all var(--transition);
 }
 
 .product-card__image__wrapper{
+  box-sizing: border-box;
   overflow: hidden;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   position: absolute;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
 }
 
 .product-card__image-link:hover .product-card__image{

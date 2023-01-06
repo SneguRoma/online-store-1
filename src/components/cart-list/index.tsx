@@ -9,14 +9,10 @@ interface ICartList {
   removeItem: (item: IProduct)=>void, 
   setPage: React.Dispatch<React.SetStateAction<number>>,  
   page:number,
-  setSubtotal: React.Dispatch<React.SetStateAction<number>>,
-  subtotal: number,
-  setQuantityItems: React.Dispatch<React.SetStateAction<number>>,
-  quantityItems: number,
   setFullCart: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CartList = ({elements, pages, removeItem, setPage,  page, setSubtotal, subtotal, setQuantityItems, quantityItems, setFullCart}: ICartList) => {
+const CartList = ({elements, pages, removeItem, setPage,  page, setFullCart}: ICartList) => {
   let i = pages + 1;
 
   if(!elements && page > 1){
@@ -36,10 +32,6 @@ const CartList = ({elements, pages, removeItem, setPage,  page, setSubtotal, sub
        key={item.id} 
        id={i++} 
        removeItem={removeItem}
-       setSubtotal={setSubtotal}
-       subtotal = {subtotal}
-       quantityItems={quantityItems}
-       setQuantityItems={setQuantityItems}
        />
       )
         :

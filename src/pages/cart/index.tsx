@@ -41,11 +41,8 @@ const Cart = () => {
   
   const itemsPerPages = usePagination(items, limit);
 
-  const [subtotal, setSubtotal] = useState(products.reduce((sum, e) => sum + e.price, 0));
-
   const allItems = items.length;
 
-  const [quantityItems, setQuantityItems] = useState(allItems);
   const quantityPages = itemsPerPages.length;
 
   const [page, setPage] = useState(1);
@@ -53,6 +50,10 @@ const Cart = () => {
   const [fullCart, setFullCart] = useState(true);
 
   const [subtotalClass, setsubtotalClass] = useState('');
+
+  const elems = useAppSelector((state) => state.cart.itemsInCart);
+  const subtotal = elems.reduce((sum, e) => sum + e.price , 0);
+  const quantityItems = elems.length;
 
   const sortItems = (quanItems:string | number) => {
     if(typeof quanItems === 'string')
@@ -164,10 +165,6 @@ const Cart = () => {
                   removeItem = {removeItem} 
                   setPage = {setPage} 
                   page = {page} key = {page}
-                  setSubtotal = {setSubtotal}
-                  subtotal = {subtotal}
-                  quantityItems={quantityItems}
-                  setQuantityItems={setQuantityItems}
                   setFullCart = {setFullCart}
                 />
                 } 

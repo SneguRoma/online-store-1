@@ -8,13 +8,9 @@ interface ProductProps {
   product: IProduct;
   id: number;
   removeItem: (item: IProduct)=>void
-  setSubtotal: React.Dispatch<React.SetStateAction<number>>,
-  subtotal: number,
-  setQuantityItems: React.Dispatch<React.SetStateAction<number>>,
-  quantityItems: number
 }
 
-const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityItems, quantityItems}:ProductProps) => {
+const CartItem = ({product, id, removeItem}:ProductProps) => {
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(product.price)
 
@@ -22,8 +18,6 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
     if(quantity < product.stock){
       setQuantity(quantity + 1);
       setPrice(price + product.price);
-      setSubtotal(subtotal + product.price);
-      setQuantityItems(quantityItems + 1);
     }
   }
   
@@ -31,13 +25,13 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
     if (quantity > 1){
       setQuantity(quantity - 1);
       setPrice(price - product.price);
-      setSubtotal(subtotal - product.price);
-      setQuantityItems(quantityItems - 1);
     }else{
-      setQuantityItems(quantityItems - 1);
-      setSubtotal(subtotal - product.price);
       removeItem(product);
     }
+  }
+
+  function ratingStars (rating:number){
+    return ((100 * rating) / 5);
   }
 
   return(
@@ -55,7 +49,12 @@ const CartItem = ({product, id, removeItem, setSubtotal, subtotal, setQuantityIt
           {product.description}
         </div>
         <div className='product__rate-disc'>
-          <div className='product__rating'>Rating: {product.rating}</div>
+          <div className='product__rating'>
+            <div className='product__body'>
+              <div className='product__active' style={{width: `${(ratingStars(product.rating))}%`}}></div>
+            </div>
+            <div className='product__rating-text'>{product.rating}</div>
+          </div>
           <div className='product__discount'>Discount: { Math.round(product.discountPercentage)}%</div>
         </div>
       </div>
