@@ -19,6 +19,10 @@ export function Product () {
     product = item;
   }
 
+  function ratingStars (rating:number){
+    return ((100 * rating) / 5);
+  }
+
   const [src, setSrc] = useState(product.images[0]);
   
   return (
@@ -53,7 +57,12 @@ export function Product () {
             <div className="card__info">
               <h2 className='card__title'>{ product.title }</h2>
               <span className="card__price">${ product.price }</span>
-              <span className="card__rating">Rating: { product.rating }</span>
+              <div className='product-card__rating'>
+                <div className='product-card__body'>
+                  <div className='product-card__active' style={{width: `${(ratingStars(product.rating))}%`}}></div>
+                </div>
+                <div className='product-card__rating-text'>{product.rating}</div>
+              </div>
               <ul className="card__meta">  
                 <li className="card__meta__item"><span>In stock: { product.stock }</span></li>
                 <li className="card__meta__item"><span>Sales { Math.round(product.discountPercentage) }% Off</span></li>

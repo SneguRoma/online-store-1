@@ -41,9 +41,9 @@ export function ProductElement({product}: ProductProps){
         </div>
       </Link>
       <div className="product-card__info">
-        <a href="" className='product-card__title'>
+        <Link to={`/items/${product.id}`} className='product-card__title'>
           {product.title}
-        </a>
+        </Link>
         <div className='product-card__rating'>
           <div className='product-card__body'>
             <div className='product-card__active' style={{width: `${(ratingStars(product.rating))}%`}}></div>

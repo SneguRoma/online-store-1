@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaсes';
 import Button from '../UI/button/Button';
 import classes from './index.module.css';
@@ -28,18 +29,18 @@ export function ProductRowElement({product}: ProductProps){
   return (    
     <div className={classes.product}>
     <div className={classes.product__info}>
-      <a href="#" className={classes['product-card__image-link__row']}>
+      <Link to={`/items/${product.id}`} className={classes['product-card__image-link__row']}>
         <div className={classes['product__thumbnail']}>
           <div className={classes['product-card__stock']}>{product.stock} Left</div>
           <img src={product.thumbnail} alt="" className={classes['product__img']}/>
         </div>
-      </a>
+      </Link>
       <div className={classes['product__info-block']}>
-        <a href="" className={classes['product-card__title']}>
+        <Link to={`/items/${product.id}`} className={classes['product-card__title']}>
           <div className={classes['product_title']}>
             {product.title}
           </div>
-        </a>
+        </Link>
         <div className={classes['product_description']}>
           {product.description}
         </div>
