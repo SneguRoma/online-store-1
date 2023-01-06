@@ -16,7 +16,6 @@ const App: React.FC = () => {
       <Route path="/items/:id" element={<Product/>}></Route>
       <Route path="/cart" element={<Cart/>}></Route>  
     </Routes>
-      
     </BrowserRouter>
   )
 }
