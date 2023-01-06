@@ -17,10 +17,10 @@ export function ItemList({items, changeDirection}: ItemProps) {
       {changeDirection
       ?
       items.map((product: IProduct, index: number) => 
-        <ProductElement product={items[index]} key = {items[index].id} />)
+        <ProductElement product={product} key = {index}/>)
       :
       items.map((product: IProduct, index: number) => 
-        <ProductRowElement product={items[index]} key = {items[index].id} />)
+        <ProductRowElement product={product} key = {index} />)
       }
     </div>          
   </div>

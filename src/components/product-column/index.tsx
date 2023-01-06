@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaсes';
 import Button from '../UI/button/Button';
 import './index.css';
@@ -27,7 +28,7 @@ export function ProductElement({product}: ProductProps){
 
   return (    
     <div className='product-card'>    
-      <a href="#" className='product-card__image-link'>
+      <Link to={`/items/${product.id}`} className='product-card__image-link'>
         {(product.discountPercentage) && <div className='product-card__discount'>{Math.round(product.discountPercentage)}% Off</div>}
         <div className='product-card__stock'>{product.stock} Left</div>
         <div className='product-card__image__wrapper'>
@@ -38,7 +39,7 @@ export function ProductElement({product}: ProductProps){
             {!addCart ? `Add to Cart` : `Drop from Cart`}
           </Button>
         </div>
-      </a>
+      </Link>
       <div className="product-card__info">
         <a href="" className='product-card__title'>
           {product.title}
