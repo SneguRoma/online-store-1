@@ -111,7 +111,7 @@
   align-items: center;
   justify-content: space-between;
   color: var(--color-body);
-  column-gap: 2em;
+  column-gap: 1em;
   font-size: var(--font-size-b1);
 }
 
@@ -223,4 +223,31 @@
 .product .button{
   padding: 15px 15px;
   min-width: 150px;
+}
+
+@media (max-width: 1000px) {
+  .product{
+    min-height: 130px;
+  }
+
+  .product .button{
+    padding: 15px 15px;
+    min-width: 150px;
+  }
+
+  .product__price{
+    padding: 5px;
+  }
+
+  .product__img{
+    height: 12vw;
+    width: 12vw;
+  }
+
+  .product__thumbnail{
+    width: 12vw;
+    min-width: 12vw;
+    padding: 5px;
+    padding-left: 15px;
+  }
 }

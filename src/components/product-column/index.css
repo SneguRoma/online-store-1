@@ -178,3 +178,10 @@
 .product-card__category{
   text-transform: capitalize;
 }
+
+@media (max-width: 1000px) {
+  .product-card{
+    width: 30%;
+  }
+
+}

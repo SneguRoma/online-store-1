@@ -67,3 +67,16 @@
 .direction__icon{
   font-family: var(--font-awesome);
 }
+
+@media (max-width: 1200px) {
+  .direction{
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  
+  .found__filters-block{
+    top: 1em;
+  }
+}

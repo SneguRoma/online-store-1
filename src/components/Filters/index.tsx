@@ -5,7 +5,8 @@ import Range from '../UI/Range/Range';
 import { setFilterAndSort, setMinBound, setMaxBound } from './functions';
 import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './constans';
 import Checkbox from '../UI/Checkbox/Checkbox';
-import { filterProps } from './interface';
+import { filterProps } from './interface';  
+import { useSearchParams } from 'react-router-dom';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -22,6 +23,10 @@ if (brandsArr.length === 0) {
 }    
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}: filterProps)  => {
+
+  const [searhParams, setSearchParams] = useSearchParams();
+
+  const filtersQuery = searhParams.get('filter'); 
   
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
