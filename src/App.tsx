@@ -1,6 +1,5 @@
 import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { products } from "./data"
 import Cart from "./pages/cart"
 import { Found } from "./pages/Found"
 import NotFound from "./pages/not-found"

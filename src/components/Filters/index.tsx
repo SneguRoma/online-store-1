@@ -79,7 +79,6 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
         <div className='range__content'>
           <div className="range-values">
             <div className='min-range'> {(minPriceBound === 0) ? filter.priceMin: minPriceBound}</div>
-            <div className='found-range'> {(setBounds.found === 0) ? 'not found': "found" + setBounds.found }</div>
             <div className='max-range'>{(maxPriceBound===0)? filter.priceMax : maxPriceBound}</div>
           </div> 
           <div className='range__bar'>

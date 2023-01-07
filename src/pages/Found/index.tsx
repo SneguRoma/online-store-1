@@ -133,6 +133,10 @@ export function Found() {
           setFilter = {setFilter}	                   
           sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
           /> 
+          <div className='filters__clear-save'>
+            <Button onClick={resetFilters}>Reset filters</Button>
+            <Button>Save filters</Button>
+          </div> 
                 	            
         </div>	            
         <div className='found__items-block'>	            
@@ -164,10 +168,6 @@ export function Found() {
             }	
           </div>    	
         </div>
-        <div className='filters__clear-save'>
-          <Button onClick={resetFilters}>Reset filters</Button>
-          <Button>Save filters</Button>
-        </div> 
           <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            	
         </div>	
       </div>	
