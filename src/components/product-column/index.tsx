@@ -39,7 +39,7 @@ export function ProductElement({product}: ProductProps){
   }
 
   useEffect(()=>{
-    if(items.some(elem =>  elem === product)) setAddCart(true);
+    if(items.find(elem =>  elem.id === product.id)){ setAddCart(true)};
   })
 
   return (    
