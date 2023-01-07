@@ -6,6 +6,7 @@ import './index.css';
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { products } from "../../data";
 import { useDispatch } from "react-redux";
 import { setItemInCart, deleteItemFromCart } from "../../redux/cart/reducer";
@@ -19,6 +20,8 @@ export function Product () {
   const item = products.find(item => item.id === id);
   if(item){
     product = item;
+  }else{
+    return <Navigate to={`/404`} />;
   }
 
   function ratingStars (rating:number){
