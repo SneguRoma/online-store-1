@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { isTemplateMiddle } from "typescript";
 import { IProduct } from "../../interfaсes";
 
 
@@ -9,15 +10,26 @@ const cartSlice = createSlice({
   },
   reducers: {
     setItemInCart: (state, action) => {
-      if (!action.payload.quantity) action.payload.quantity = 1;
-      state.itemsInCart.push(action.payload)
+      state.itemsInCart.push({ ...action.payload, quantity: 1 });
     },
     deleteItemFromCart: (state, action) => {
-      state.itemsInCart.forEach(elem => { if (elem.id === action.payload.id) console.log(elem) })
-      state.itemsInCart = state.itemsInCart.filter(item => { item.id !== action.payload.id })
+      const removeItem = state.itemsInCart.filter((item) => item.id !== action.payload.id);
+      state.itemsInCart = removeItem;
+    },
+    increment: (state, action) => {
+      const item = state.itemsInCart.find((item) => item.id === action.payload.id);
+      if (item && item.quantity) {
+        item.quantity = item.quantity + 1
+      };
+    },
+    decrement: (state, action) => {
+      const item = state.itemsInCart.find((item) => item.id === action.payload.id);
+      if (item && item.quantity) {
+        item.quantity = item.quantity - 1;
+      }
     },
   }
 });
 
-export const { setItemInCart, deleteItemFromCart } = cartSlice.actions;
+export const { setItemInCart, deleteItemFromCart, increment, decrement } = cartSlice.actions;
 export default cartSlice.reducer; 

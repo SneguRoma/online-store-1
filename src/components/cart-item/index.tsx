@@ -1,32 +1,31 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaсes';
+import { decrement, deleteItemFromCart, increment } from '../../redux/cart/reducer';
 import './index.css';
 
 interface ProductProps {
   product: IProduct;
   id: number;
-  removeItem: (item: IProduct)=>void
 }
 
-const CartItem = ({product, id, removeItem}:ProductProps) => {
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(product.price)
+const CartItem = ({product, id}:ProductProps) => {
 
-  function increment(){
-    if(quantity < product.stock){
-      setQuantity(quantity + 1);
-      setPrice(price + product.price);
+    const dispatch = useDispatch();
+
+  const incrementItems = () => {
+    if(product.quantity && product.quantity < product.stock){
+      dispatch(increment(product))
     }
   }
-  
-  function decrement(){
-    if (quantity > 1){
-      setQuantity(quantity - 1);
-      setPrice(price - product.price);
+
+  const decrementItems = () => {
+    if(product.quantity && product.quantity > 1){
+      dispatch(decrement(product))
     }else{
-      removeItem(product);
+      dispatch(deleteItemFromCart(product))
     }
   }
 
@@ -63,12 +62,15 @@ const CartItem = ({product, id, removeItem}:ProductProps) => {
     <div className='product__quantity'>
       <div className='product__stock'>Stock: {product.stock}</div>
       <div className='product_quan'>
-        <div className='dec qtybtn' onClick={decrement}>-</div>
-        <div className='quantity__number'>{quantity }</div>
-        <div className='inc qtybtn' onClick={increment}>+</div>
+        <div className='dec qtybtn' onClick={decrementItems} >-</div>
+        <div className='quantity__number'>{product.quantity }</div>
+        <div className='inc qtybtn' onClick={incrementItems}>+</div>
       </div>
     </div>
-    <div className='product__subtotal'>${price}</div>
+    <div className='product__subtotal'>${
+      product.quantity ? product.quantity * product.price : product.price
+      
+    }</div>
   </div>
   )
 }

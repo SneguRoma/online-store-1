@@ -8,8 +8,19 @@ import { useAppSelector } from '../../interfaсes';
 const Header = () => {
 
   const items = useAppSelector((state) => state.cart.itemsInCart);
-  const totalPrice = items.reduce((sum, e) => sum + e.price , 0);
-  const totalQunatity = items.reduce((sum, e) => sum + 1 , 0);
+  const totalPrice = items.reduce((sum, e) => {
+    if(e.quantity){
+      return sum + (e.price * e.quantity)
+    }
+    return sum + e.price
+     }, 0);
+     
+  const totalQunatity = items.reduce((sum, e) => {
+    if(e.quantity){
+      return sum + e.quantity
+    }
+    return  sum
+  } , 0);
   
   return (
     <header className='header'>

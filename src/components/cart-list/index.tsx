@@ -6,13 +6,12 @@ import { IProduct } from '../../interfaсes';
 interface ICartList {
   elements: IProduct[], 
   pages: number, 
-  removeItem: (item: IProduct)=>void, 
   setPage: React.Dispatch<React.SetStateAction<number>>,  
   page:number,
   setFullCart: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CartList = ({elements, pages, removeItem, setPage,  page, setFullCart}: ICartList) => {
+const CartList = ({elements, pages, setPage, page, setFullCart}: ICartList) => {
   let i = pages + 1;
 
   if(!elements && page > 1){
@@ -31,7 +30,6 @@ const CartList = ({elements, pages, removeItem, setPage,  page, setFullCart}: IC
        product={item} 
        key={item.id} 
        id={i++} 
-       removeItem={removeItem}
        />
       )
         :

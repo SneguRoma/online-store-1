@@ -1,5 +1,5 @@
 interface IProductKeys {
-  [key: string]: string | number | string[];
+  [key: string | number]: string | number | string[] | undefined;
 }
 
 export interface IProduct extends IProductKeys {
@@ -14,6 +14,7 @@ export interface IProduct extends IProductKeys {
   category: string;
   thumbnail: string;
   images: string[];
+  quantity?: number
 }
 
 export interface ProductOpts {

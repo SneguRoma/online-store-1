@@ -25,9 +25,8 @@ const Cart = () => {
   
   // TODO: Доделать добавление количества товара
 
-  const products = useAppSelector((state) => state.cart.itemsInCart);
+  const items = useAppSelector((state) => state.cart.itemsInCart);
 
-  const [items, setItems] = useState(products);
   const [limit, setLimit] = useState(5);
   const [promo, setPromo] = useState('');
   const [modal, setModal] = useState(false);
@@ -51,9 +50,20 @@ const Cart = () => {
 
   const [subtotalClass, setsubtotalClass] = useState('');
 
-  const elems = useAppSelector((state) => state.cart.itemsInCart);
-  const subtotal = elems.reduce((sum, e) => sum + e.price , 0);
-  const quantityItems = elems.length;
+
+  const subtotal = items.reduce((sum, e) => {
+    if(e.quantity){
+      return sum + (e.price * e.quantity)
+    }
+    return sum + e.price
+     }, 0);
+
+  const quantityItems = items.reduce((sum, e) => {
+    if(e.quantity){
+      return sum + e.quantity
+    }
+    return  sum
+  } , 0);
 
   const sortItems = (quanItems:string | number) => {
     if(typeof quanItems === 'string')
@@ -86,10 +96,6 @@ const Cart = () => {
     if(activePromo.length < 2){
       setsubtotalClass('');
     }
-  }
-
-  const removeItem = (item: IProduct) => {
-    setItems(items.filter(p => {return p.id !== item.id}));
   }
 
   const TotalSum = () => {
@@ -162,7 +168,6 @@ const Cart = () => {
                 {<CartList 
                   elements={itemsPerPages[page - 1]} 
                   pages = {(page - 1) * limit} 
-                  removeItem = {removeItem} 
                   setPage = {setPage} 
                   page = {page} key = {page}
                   setFullCart = {setFullCart}
