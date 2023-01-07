@@ -22,11 +22,16 @@ if (brandsArr.length === 0) {
   }  
 }    
 
-export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}: filterProps)  => {
+export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
 
-  const [searhParams, setSearchParams] = useSearchParams();
+  //TODO: Добавить query параметры в фильтры. О
 
-  const filtersQuery = searhParams.get('filter'); 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // searchParams.get('')
+
+  
+ 
   
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
@@ -34,22 +39,146 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
   const minStockBound = setMinBound(setBounds.stockMin, setBounds.stockMax);
   const maxStockBound = setMaxBound(setBounds.stockMin, setBounds.stockMax);   
    
-  const checkedCategory = (check: boolean, item: string) => {      
-       setFilter({...filter, category: item , checked: check})     
+  const checkedCategory = (check: boolean, item: string) => {   
+
+    const key = 'category';
+ 
+    if(check){
+      searchParams.append(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
+
+    setFilter({...filter, category: item , checked: check})     
   };
-  const checkedBrand = (check: boolean, item: string) => {    
+
+
+  const checkedBrand = (check: boolean, item: string) => {   
+    
+    const key = 'brand';
+ 
+    if(check){
+      searchParams.append(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
      setFilter({...filter, brand: item , checkBrand: check})     
   };
-  const rangePriceMin = (value: number) => {       
+
+  const rangePriceMin = (value: number) => {  
+    
+    const key = 'priceMin';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
     setFilter({...filter, priceMin: value})    
   };
-  const rangePriceMax = (value: number) => {     
+
+  const rangePriceMax = (value: number) => {  
+    const key = 'priceMax';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
+
     setFilter({...filter, priceMax: value})    
   };
+
   const rangeStockMin = (value: number) => {    
+
+    const key = 'stockMin';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+
     setFilter({...filter, stockMin: value})    
   };
-  const rangeStockMax = (value: number) => {    
+
+  const rangeStockMax = (value: number) => {  
+    
+    const key = 'stockMax';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
     setFilter({...filter, stockMax: value})    
   }; 
 
@@ -60,6 +189,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
         <div className='category__content'>
           {categoriesArr.sort().map((category: string, index: number) => 
             <Checkbox 
+              key={category}
+              id = {index + category}
               item={categoriesArr[index]}                         
               onChange={checkedCategory}
               sortedArray = {sortedSearchedAndFilteredItem}
@@ -72,6 +203,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
         <div className='category__content'>
           {brandsArr.sort().map((brand: string, index: number) => 
             <Checkbox
+              key={brand}
+              id = {index + brand}
               item={brandsArr[index]}              
               onChange={checkedBrand}
               sortedArray = {sortedSearchedAndFilteredItem}

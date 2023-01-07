@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { Select } from '../../components/UI/select/Select';
@@ -14,6 +14,7 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';	
 import gridIcon from '../../images/icons/grid.svg';	
 import rowIcon from '../../images/icons/row.svg'	
+import { useSearchParams } from 'react-router-dom';
 
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
@@ -22,13 +23,32 @@ let brandArray: string[] = [];
 let key = 1;
 
 export function Found() {  
+
+  const [searchParams, setSearchParams] = useSearchParams();
   
   const [foundProducts, setProducts] = useState(products);
   const [selectSort, setSelectSort] = useState('');
   const [search, setSearch] = useState('');
+  const [changeDirection, setChangeDirection] = useState(true);
+
+  const directionExist = searchParams.get('direction');
+  const seactExist = searchParams.get('search');
+  const selectSortExist = searchParams.get('sort');
+
+  useEffect(()=>{
+    if(directionExist){
+      setChangeDirection(JSON.parse(directionExist))
+    }
+    if(seactExist){
+      setSearch(seactExist)
+    }
+    if(selectSortExist){
+      setSelectSort(selectSortExist)
+    }
+  })
   
   const [maxminprice, setmaxminprice] = useState(setFilterAndSort(products));
-  const [filter, setFilter]=useState({
+  const [filter, setFilter] = useState({
     category: '',
     checked: true,
     brand: '', 
@@ -59,12 +79,14 @@ export function Found() {
     setSearch('');
     setSelectSort('')
   };
-    
-  const sortedItem = useMemo(() => {    
-    if(selectSort) {    
+
+  
+  const sortedItem = useMemo(() => {   
+    if(selectSort) {        
       return sortItems(foundProducts, selectSort);
-    }    
-    else return products;
+    }else {
+      return products
+    };
   },
   [selectSort, foundProducts, resetBounds,key]);
     
@@ -96,29 +118,19 @@ export function Found() {
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);      
      
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
-     /* setBounds.priceMax =filter.priceMax 
-    if(setBounds.priceMin < filter.priceMin)  filter.priceMin =setBounds.priceMin */
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
-    /* let setBoundsPrice = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsPrice.priceMax < filter.priceMax)  filter.priceMax = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMin)  filter.priceMin = setBoundsPrice.priceMin
-    if(setBoundsPrice.priceMax < filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBoundsPrice.priceMin */
-   /*  let setBoundsStock = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsStock.stockMax < filter.stockMax)  filter.stockMax = setBoundsStock.stockMax
-    if(setBoundsStock.stockMin > filter.stockMin)  filter.stockMin = setBoundsStock.stockMin
-    if(setBoundsStock.stockMax < filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBoundsStock.stockMax
-    if(setBoundsStock.stockMin > filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBoundsStock.stockMin */
-    /* console.log('filter comout', filter)  */
     return checkedStockedFiltered;         
     }      
   }, [filter, sortedAndSearchedItem,resetBounds,key]);
   
   
   const sortItem = (sort: string | number) => {
-    if(typeof sort === 'string') setSelectSort(sort);     
+
+    if(typeof sort === 'string') setSelectSort(sort); 
+    const key = 'sort';
+    searchParams.set(key, sort.toString());
+    setSearchParams(searchParams);     
   }
-  const [changeDirection, setChangeDirection] = useState(true);
   
     return (
 <div className="body">	   
@@ -155,16 +167,36 @@ export function Found() {
           }    	
           <input 	
             value={search}	
-            onChange={e => setSearch(e.target.value)}	
+            onChange={e => {
+
+              const search = e.target.value;
+              const key = 'search';
+
+              if(search){
+                searchParams.set(key, search);
+                setSearchParams(searchParams); 
+              }else{
+                searchParams.delete(key);
+                setSearchParams(searchParams); 
+              }
+              
+              setSearch(e.target.value)}}	
             placeholder='Search'	
             className="input__found" 	
            />    	
-          <div className="direction" onClick={() => setChangeDirection(prev => !prev)}>	
+          <div className="direction" onClick={() => {
+
+            setChangeDirection(prev => !prev)
+            const key = 'direction';
+            searchParams.set(key, (!changeDirection).toString());
+            setSearchParams(searchParams); 
+
+            }}>	
               {changeDirection	
               ?	
-              <img src={gridIcon} alt="" />	
-              :	
               <img src={rowIcon} alt="" />	
+              :	
+              <img src={gridIcon} alt="" />	
             }	
           </div>    	
         </div>
