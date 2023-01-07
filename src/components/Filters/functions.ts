@@ -16,8 +16,8 @@ export const setFilterAndSort = (checkedStockedFiltered: IProduct[], filter?: If
     
     return maxMinPrice;
   }
-  /* if (filter){
-    return {priceMin: filter.priceMin, priceMax: filter.priceMax, stockMin: filter.stockMin, stockMax: filter.stockMax}
+  /* if (filter && checkedStockedFiltered.length === 0){
+    return {priceMin: 0, priceMax: 0, stockMin: filter.stockMin, stockMax: filter.stockMax,found:0}
   } */
   return {priceMin: 0, priceMax: 0, stockMin: 0, stockMax: 0,found:0}
 }

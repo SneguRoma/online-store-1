@@ -99,14 +99,14 @@ export function Found() {
      /* setBounds.priceMax =filter.priceMax 
     if(setBounds.priceMin < filter.priceMin)  filter.priceMin =setBounds.priceMin */
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
-    /* let setBoundsPrice = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsPrice.priceMax < filter.priceMax)  filter.priceMax = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMin)  filter.priceMin = setBoundsPrice.priceMin
+    let setBoundsPrice = setFilterAndSort(checkedStockedFiltered);
+    if(setBoundsPrice.priceMax < filter.priceMax && setBoundsPrice.priceMax !== 0)  filter.priceMax = setBoundsPrice.priceMax
+    if(setBoundsPrice.priceMin > filter.priceMin && setBoundsPrice.priceMin !== 0)  filter.priceMin = setBoundsPrice.priceMin
     if(setBoundsPrice.priceMax < filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBoundsPrice.priceMin */
-   /*  let setBoundsStock = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsStock.stockMax < filter.stockMax)  filter.stockMax = setBoundsStock.stockMax
-    if(setBoundsStock.stockMin > filter.stockMin)  filter.stockMin = setBoundsStock.stockMin
+    if(setBoundsPrice.priceMin > filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBoundsPrice.priceMin
+    /* let setBoundsStock = setFilterAndSort(checkedStockedFiltered);
+    if(setBoundsStock.stockMax < filter.stockMax && setBoundsPrice.stockMax !== 0)  filter.stockMax = setBoundsStock.stockMax
+    if(setBoundsStock.stockMin > filter.stockMin && setBoundsPrice.stockMin !== 0 )  filter.stockMin = setBoundsStock.stockMin
     if(setBoundsStock.stockMax < filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBoundsStock.stockMax
     if(setBoundsStock.stockMin > filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBoundsStock.stockMin */
     /* console.log('filter comout', filter)  */

@@ -104,8 +104,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
         <div className='category__title range__title'>Stock</div>
         <div className='range__content'>
           <div className="range-values">
-            <div className='min-range'> {(minStockBound === 0)? filter.stockMin : minStockBound}</div>
-            <div className='max-range'>{(maxStockBound === 0)? filter.stockMax : maxStockBound}</div>
+            <div className='min-range'> {(minStockBound === 0)? ((+filter.stockMin < +filter.stockMax )? filter.stockMin :filter.stockMax) : minStockBound}</div>
+            <div className='max-range'>{(maxStockBound === 0)? ((+filter.stockMin > +filter.stockMax )? filter.stockMin :filter.stockMax) : maxStockBound}</div>
           </div> 
           <div className='range__bar'>
             <Range            
