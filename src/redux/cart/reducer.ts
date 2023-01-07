@@ -9,12 +9,12 @@ const cartSlice = createSlice({
   },
   reducers: {
     setItemInCart: (state, action) => {
-      action.payload.quantity = 1;
-      console.log(action.payload)
+      if (!action.payload.quantity) action.payload.quantity = 1;
       state.itemsInCart.push(action.payload)
     },
     deleteItemFromCart: (state, action) => {
-      state.itemsInCart = state.itemsInCart.filter(item => item.id !== action.payload.id)
+      state.itemsInCart.forEach(elem => { if (elem.id === action.payload.id) console.log(elem) })
+      state.itemsInCart = state.itemsInCart.filter(item => { item.id !== action.payload.id })
     },
   }
 });
