@@ -20,13 +20,12 @@ if (brandsArr.length === 0) {
   for (let i of products){
     if (!brandsArr.includes(i.brand)) brandsArr.push(i.brand);
   }  
-}    
+}   
 
-export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}: filterProps)  => {
+export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
 
-  const [searhParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const filtersQuery = searhParams.get('filter'); 
   
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
@@ -34,22 +33,145 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
   const minStockBound = setMinBound(setBounds.stockMin, setBounds.stockMax);
   const maxStockBound = setMaxBound(setBounds.stockMin, setBounds.stockMax);   
    
-  const checkedCategory = (check: boolean, item: string) => {      
-       setFilter({...filter, category: item , checked: check})     
+  const checkedCategory = (check: boolean, item: string) => {   
+
+    const key = 'category';
+ 
+    if(check){
+      searchParams.append(key, item);
+      setSearchParams(searchParams);
+      console.log('setSearchParams',searchParams.getAll(key),'categoriesArr', categoriesArr)
+    }else{
+      const values = searchParams.getAll(key);
+      console.log('values',values)
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+        
+    setFilter({...filter, category: item , checked: check})     
   };
-  const checkedBrand = (check: boolean, item: string) => {    
+
+
+  const checkedBrand = (check: boolean, item: string) => {   
+    
+    const key = 'brand';
+ 
+    if(check){
+      searchParams.append(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
      setFilter({...filter, brand: item , checkBrand: check})     
   };
-  const rangePriceMin = (value: number) => {       
+
+  const rangePriceMin = (value: number) => {  
+    
+    const key = 'priceMin';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+    
     setFilter({...filter, priceMin: value})    
   };
-  const rangePriceMax = (value: number) => {     
+
+  const rangePriceMax = (value: number) => {  
+    const key = 'priceMax';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
     setFilter({...filter, priceMax: value})    
   };
+
   const rangeStockMin = (value: number) => {    
+
+    const key = 'stockMin';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
+
     setFilter({...filter, stockMin: value})    
   };
-  const rangeStockMax = (value: number) => {    
+
+  const rangeStockMax = (value: number) => {  
+    
+    const key = 'stockMax';
+    const item = value.toString();
+ 
+    if(item){
+      searchParams.set(key, item);
+      setSearchParams(searchParams);
+    }else{
+      const values = searchParams.getAll(key);
+      if (values.length) {
+        searchParams.delete(key);
+        for (const value of values) {
+          if (value !== item) {
+            searchParams.append(key, value);
+          }
+        }
+      }
+      setSearchParams(searchParams);
+    }
     setFilter({...filter, stockMax: value})    
   }; 
 
@@ -58,12 +180,27 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
       <div className='filters__category' >
         <div className='category__title'>Category</div>
         <div className='category__content'>
-          {categoriesArr.sort().map((category: string, index: number) => 
+          {(categoriesArr.sort().map((category: string, index: number) => 
+         (searchParams.getAll('category') && searchParams.getAll('category').indexOf(category) != -1) ?          
             <Checkbox 
+              key={category}
+              id = {index + category}
+              item={categoriesArr[index]}
+              onChange={checkedCategory}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'category'/* categoriesArr[index] */} 
+              checked = {true}
+              /> : 
+              <Checkbox 
+              key={category}
+              id = {index + category}
               item={categoriesArr[index]}                         
               onChange={checkedCategory}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'category'/* categoriesArr[index] */} />)
+              value = {'category'/* categoriesArr[index] */}
+              checked ={false}  />
+              ))
+
           }
         </div>
       </div>
@@ -71,11 +208,23 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem, key}:
         <div className='category__title'>Brand</div>
         <div className='category__content'>
           {brandsArr.sort().map((brand: string, index: number) => 
+            (searchParams.getAll('brand') && searchParams.getAll('brand').indexOf(brand) != -1) ?
             <Checkbox
+              key={brand}
+              id = {index + brand}
               item={brandsArr[index]}              
               onChange={checkedBrand}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'brand'/* sArr[index] */} />)
+              value = {'brand'/* sArr[index] */}
+              checked = {true} /> :
+              <Checkbox
+              key={brand}
+              id = {index + brand}
+              item={brandsArr[index]}              
+              onChange={checkedBrand}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'brand'/* sArr[index] */}
+              checked = {false} />)
           }
         </div>
       </div>

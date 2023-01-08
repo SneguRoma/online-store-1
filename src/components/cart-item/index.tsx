@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IProduct } from '../../interfaсes';
@@ -13,7 +12,7 @@ interface ProductProps {
 
 const CartItem = ({product, id}:ProductProps) => {
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const incrementItems = () => {
     if(product.quantity && product.quantity < product.stock){

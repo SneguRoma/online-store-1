@@ -23,7 +23,6 @@ export const setMinBound = (min: number, max: number) => {
   return (+min === +max) ? min : (+min < +max) ? min : max
 }
 
-export const setMaxBound = (min: number, max: number) => {
-  /* return (+min === +max) ? ' ' : (+min > +max) ? min : max */
+export const setMaxBound = (min: number, max: number) => {  
   return (+min === +max) ? max : (+min > +max) ? min : max
 }

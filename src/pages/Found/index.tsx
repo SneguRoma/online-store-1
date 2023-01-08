@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { Select } from '../../components/UI/select/Select';
@@ -14,6 +14,7 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';	
 import gridIcon from '../../images/icons/grid.svg';	
 import rowIcon from '../../images/icons/row.svg'	
+import { useSearchParams } from 'react-router-dom';
 
 let categorySet: Set<string> = new Set();
 let categoryArray: string[] = []; 
@@ -22,13 +23,53 @@ let brandArray: string[] = [];
 let key = 1;
 
 export function Found() {  
+
+  const [searchParams, setSearchParams] = useSearchParams();
   
   const [foundProducts, setProducts] = useState(products);
   const [selectSort, setSelectSort] = useState('');
   const [search, setSearch] = useState('');
+  const [changeDirection, setChangeDirection] = useState(true);
+
+  const directionExist = searchParams.get('direction');
+  const seactExist = searchParams.get('search');
+  const selectSortExist = searchParams.get('sort');
+  const selectPriceMaxExist = Number(searchParams.get('priceMax'))
+  const selectPriceMinExist = Number(searchParams.get('priceMin'))
+  const selectStockMaxExist = Number(searchParams.get('stockMax'))
+  const selectStockMinExist = Number(searchParams.get('stockMin'))
+   
+
+  useEffect(()=>{
+    if(directionExist){
+      setChangeDirection(JSON.parse(directionExist))
+    }
+    if(seactExist){
+      setSearch(seactExist)
+    }
+    if(selectSortExist){
+      setSelectSort(selectSortExist)
+    }
+    if(selectPriceMinExist || selectPriceMaxExist){
+      setFilter({...filter,priceMax: selectPriceMaxExist, priceMin: selectPriceMinExist})
+    }
+    if(selectPriceMaxExist && !selectPriceMinExist){
+      setFilter({...filter, priceMax: selectPriceMaxExist})
+    }
+    if(selectPriceMinExist && !selectPriceMaxExist){
+      setFilter({...filter, priceMin: selectPriceMinExist})
+    }    
+    if(selectStockMaxExist){
+      filter.stockMax=selectStockMaxExist
+    }
+    if(selectStockMinExist){
+      filter.stockMin = selectStockMinExist      
+    }     
+  },[])
+  
   
   const [maxminprice, setmaxminprice] = useState(setFilterAndSort(products));
-  const [filter, setFilter]=useState({
+  const [filter, setFilter] = useState({
     category: '',
     checked: true,
     brand: '', 
@@ -42,6 +83,7 @@ export function Found() {
   const resetBounds = setFilterAndSort(products);
   const resetFilters = () => {    
     key +=1
+    setSearchParams({});
     setFilter({category: '',
       checked: true,
       brand: '', 
@@ -58,13 +100,16 @@ export function Found() {
     brandSet = new Set();
     setSearch('');
     setSelectSort('')
+    setSearchParams()
   };
-    
-  const sortedItem = useMemo(() => {    
-    if(selectSort) {    
+
+  
+  const sortedItem = useMemo(() => {   
+    if(selectSort) {        
       return sortItems(foundProducts, selectSort);
-    }    
-    else return products;
+    }else {
+      return products
+    };
   },
   [selectSort, foundProducts, resetBounds,key]);
     
@@ -86,130 +131,126 @@ export function Found() {
       if(filter.checked) categorySet.add(filter.category);
       else categorySet.delete(filter.category);      
     } 
-    categoryArray = Array.from(categorySet)     
+    if(searchParams.getAll('category')) categoryArray = searchParams.getAll('category');
+    else categoryArray = Array.from(categorySet)    
+      
     if (filter.brand !== ''){
       if(filter.checkBrand) brandSet.add(filter.brand);
       else brandSet.delete(filter.brand);
     } 
-    brandArray = Array.from(brandSet);
+    if(searchParams.getAll('brand')) brandArray = searchParams.getAll('brand');
+    else brandArray = Array.from(brandSet);
    
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);      
      
     const sortedAndFilterPrice = checkPriceFilter(filter.priceMin, filter.priceMax, sortedSearchedAndFilteredItems);
-     /* setBounds.priceMax =filter.priceMax 
-    if(setBounds.priceMin < filter.priceMin)  filter.priceMin =setBounds.priceMin */
     const checkedStockedFiltered = checkStockFilter(filter.stockMin, filter.stockMax, sortedAndFilterPrice);
-    /* let setBoundsPrice = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsPrice.priceMax < filter.priceMax)  filter.priceMax = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMin)  filter.priceMin = setBoundsPrice.priceMin
-    if(setBoundsPrice.priceMax < filter.priceMin && filter.priceMin > filter.priceMax)  filter.priceMin = setBoundsPrice.priceMax
-    if(setBoundsPrice.priceMin > filter.priceMax && filter.priceMax < filter.priceMin)  filter.priceMax = setBoundsPrice.priceMin */
-   /*  let setBoundsStock = setFilterAndSort(sortedSearchedAndFilteredItems); */
-    /* if(setBoundsStock.stockMax < filter.stockMax)  filter.stockMax = setBoundsStock.stockMax
-    if(setBoundsStock.stockMin > filter.stockMin)  filter.stockMin = setBoundsStock.stockMin
-    if(setBoundsStock.stockMax < filter.stockMin && filter.stockMin > filter.stockMax)  filter.stockMin = setBoundsStock.stockMax
-    if(setBoundsStock.stockMin > filter.stockMax && filter.stockMax < filter.stockMin)  filter.stockMax = setBoundsStock.stockMin */
-    /* console.log('filter comout', filter)  */
     return checkedStockedFiltered;         
     }      
   }, [filter, sortedAndSearchedItem,resetBounds,key]);
   
   
   const sortItem = (sort: string | number) => {
-    if(typeof sort === 'string') setSelectSort(sort);     
+
+    if(typeof sort === 'string') setSelectSort(sort); 
+    const key = 'sort';
+    searchParams.set(key, sort.toString());
+    setSearchParams(searchParams);     
   }
-  const [changeDirection, setChangeDirection] = useState(true);
-  
-    return (
-<div className="body">	   
-  <Header />	                 
-  <main className='main'>	          
-    <div className = "container">	            
-      <div className='found__wrapper'>	            
-        <div className='found__filters-block'>	            
-          <Filters
-           key ={key}	            
-          filter={filter}	          
-          setFilter = {setFilter}	                   
-          sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
-          /> 
-          <div className='filters__clear-save'>
-            <Button onClick={resetFilters}>Reset filters</Button>
-            <Button>Save filters</Button>
-          </div> 
-                	            
-        </div>	            
-        <div className='found__items-block'>	            
-          <div className="items-block__sort">          	         
-          <Select 	
-            value={selectSort}	          
-            onChange={sortItem} 	
-            defaultValue ='Sorts' 	
-            options = {options}             	
-          />	
-          { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 	
-            ? 	
-            <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 	
-            : 	
-            <div className="found__items-quantity">Items not found</div>	
-          }    	
-          <input 	
-            value={search}	
-            onChange={e => setSearch(e.target.value)}	
-            placeholder='Search'	
-            className="input__found" 	
-           />    	
-          <div className="direction" onClick={() => setChangeDirection(prev => !prev)}>	
-              {changeDirection	
-              ?	
-              <img src={gridIcon} alt="" />	
-              :	
-              <img src={rowIcon} alt="" />	
-            }	
-          </div>    	
-        </div>
-          <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            	
-        </div>	
-      </div>	
-    </div>	       
-  </main>	        
-  <Footer />	       
-</div>
-      
 
+  const [copyUrl, setCopyUrl] = useState(false);
 
-    
-    
-    );   
+  setTimeout( () => setCopyUrl(false), 1000)
+
+  function buttonColor(copyUrl:boolean){
+    let res = {backgroundColor: 'var(--color-primary)'};
+    if(copyUrl){
+      return res = {backgroundColor: 'var(--color-secondary)'}
+    }else{
+      return res = {backgroundColor: 'var(--color-primary)'}
+    }
+  }
+
+  return (
+    <div className="body">	   
+      <Header />	                 
+      <main className='main'>	          
+        <div className = "container">	            
+          <div className='found__wrapper'>	            
+            <div className='found__filters-block'>	            
+              <Filters
+               key ={key}	            
+              filter={filter}	          
+              setFilter = {setFilter}	                   
+              sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
+              /> 
+              <div className='filters__clear-save'>
+                <Button onClick={resetFilters}>Reset filters</Button>
+                <Button style={buttonColor(copyUrl)} onClick={(e) => {
+                  e.preventDefault()
+                  navigator.clipboard.writeText(window.location.toString())
+                  setCopyUrl(true);
+                  }}>{!copyUrl ? `Copy link` : `Copied`}</Button>
+              </div> 
+                    	            
+            </div>	            
+            <div className='found__items-block'>	            
+              <div className="items-block__sort">          	         
+              <Select 	
+                value={selectSort}	          
+                onChange={sortItem} 	
+                defaultValue ='Sorts' 	
+                options = {options}             	
+              />	
+              { (sortedSearchedAndFilteredItem !== undefined) && 
+                <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div>
+              }    	
+              <input 	
+                value={search}	
+                onChange={e => {    
+
+                  const search = e.target.value;
+                  const key = 'search';    
+
+                  if(search){
+                    searchParams.set(key, search);
+                    setSearchParams(searchParams); 
+                  }else{
+                    searchParams.delete(key);
+                    setSearchParams(searchParams); 
+                  }
+                  
+                  setSearch(e.target.value)}}	
+                placeholder='Search'	
+                className="input__found" 	
+               />    	
+              <div className="direction" onClick={() => {    
+
+                setChangeDirection(prev => !prev)
+                const key = 'direction';
+                searchParams.set(key, (!changeDirection).toString());
+                setSearchParams(searchParams);     
+
+                }}>	
+                  {changeDirection	
+                  ?	
+                  <img src={rowIcon} alt="" />	
+                  :	
+                  <img src={gridIcon} alt="" />	
+                }	
+              </div>    	
+            </div>
+            {(sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 	
+            ?
+            <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>
+            :
+            <div className='empty-found-page'>Items not found</div>
+            }
+            </div>	
+          </div>	
+        </div>	       
+      </main>	        
+      <Footer />	       
+    </div>
+  );   
 }
-
-
-{/* <div className = "container">
-        <div className="sort">          
-          <input 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder='поиск ...'
-            className="found" 
-           />
-          <hr style={{margin: '15px'}}/>           
-          <Select 
-            value={selectSort}
-            onChange={sortItem} 
-            defaultValue ='сортировка' 
-            options = {options}                        
-          />        
-        </div>
-        <Filters
-        key ={key}
-        filter={filter}
-        setFilter = {setFilter}
-        sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
-        />        
-        <hr style={{margin: '15px'}}/>
-        <div className='filters__clear-save'>
-          <Button onClick={resetFilters}>Reset filters</Button>
-          <Button>Save filters</Button>
-        </div>
-        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
-    </div> */}

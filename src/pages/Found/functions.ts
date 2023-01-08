@@ -35,7 +35,7 @@ export const checkedCatAndBrand = (sortedAndSearchedItem: IProduct[], categoryAr
 }
 
 export const checkPriceFilter = (priceMin: number, priceMax: number, sortedSearchedAndFilteredItem: IProduct[]) => {
-  /* if (+priceMin === +priceMax) { return [] } */
+  
   if (+priceMin <= +priceMax) {
     return sortedSearchedAndFilteredItem.filter(item => (item.price <= priceMax && item.price >= priceMin));
   }
@@ -46,7 +46,7 @@ export const checkPriceFilter = (priceMin: number, priceMax: number, sortedSearc
 }
 
 export const checkStockFilter = (stockMin: number, stockMax: number, sortedAndFilterPrice: IProduct[]) => {
-  /* if (+stockMin === +stockMax) { return [] } */
+  
   if (+stockMin <= +stockMax) {
     return sortedAndFilterPrice.filter(item => (item.stock <= stockMax && item.stock >= stockMin));
   }
