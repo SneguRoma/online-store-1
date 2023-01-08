@@ -28,10 +28,6 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // searchParams.get('')
-
-  
- 
   
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);

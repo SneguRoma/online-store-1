@@ -62,6 +62,7 @@ export function Found() {
   const resetBounds = setFilterAndSort(products);
   const resetFilters = () => {    
     key +=1
+    setSearchParams({});
     setFilter({category: '',
       checked: true,
       brand: '', 
@@ -131,117 +132,100 @@ export function Found() {
     searchParams.set(key, sort.toString());
     setSearchParams(searchParams);     
   }
-  
-    return (
-<div className="body">	   
-  <Header />	                 
-  <main className='main'>	          
-    <div className = "container">	            
-      <div className='found__wrapper'>	            
-        <div className='found__filters-block'>	            
-          <Filters
-           key ={key}	            
-          filter={filter}	          
-          setFilter = {setFilter}	                   
-          sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
-          /> 
-          <div className='filters__clear-save'>
-            <Button onClick={resetFilters}>Reset filters</Button>
-            <Button>Save filters</Button>
-          </div> 
-                	            
-        </div>	            
-        <div className='found__items-block'>	            
-          <div className="items-block__sort">          	         
-          <Select 	
-            value={selectSort}	          
-            onChange={sortItem} 	
-            defaultValue ='Sorts' 	
-            options = {options}             	
-          />	
-          { (sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 	
-            ? 	
-            <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div> 	
-            : 	
-            <div className="found__items-quantity">Items not found</div>	
-          }    	
-          <input 	
-            value={search}	
-            onChange={e => {
 
-              const search = e.target.value;
-              const key = 'search';
+  const [copyUrl, setCopyUrl] = useState(false);
 
-              if(search){
-                searchParams.set(key, search);
-                setSearchParams(searchParams); 
-              }else{
-                searchParams.delete(key);
-                setSearchParams(searchParams); 
-              }
-              
-              setSearch(e.target.value)}}	
-            placeholder='Search'	
-            className="input__found" 	
-           />    	
-          <div className="direction" onClick={() => {
+  setTimeout( () => setCopyUrl(false), 1000)
 
-            setChangeDirection(prev => !prev)
-            const key = 'direction';
-            searchParams.set(key, (!changeDirection).toString());
-            setSearchParams(searchParams); 
+  function buttonColor(copyUrl:boolean){
+    let res = {backgroundColor: 'var(--color-primary)'};
+    if(copyUrl){
+      return res = {backgroundColor: 'var(--color-secondary)'}
+    }else{
+      return res = {backgroundColor: 'var(--color-primary)'}
+    }
+  }
 
-            }}>	
-              {changeDirection	
-              ?	
-              <img src={rowIcon} alt="" />	
-              :	
-              <img src={gridIcon} alt="" />	
-            }	
-          </div>    	
-        </div>
-          <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>            	
-        </div>	
-      </div>	
-    </div>	       
-  </main>	        
-  <Footer />	       
-</div>
-      
+  return (
+    <div className="body">	   
+      <Header />	                 
+      <main className='main'>	          
+        <div className = "container">	            
+          <div className='found__wrapper'>	            
+            <div className='found__filters-block'>	            
+              <Filters
+               key ={key}	            
+              filter={filter}	          
+              setFilter = {setFilter}	                   
+              sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}	          
+              /> 
+              <div className='filters__clear-save'>
+                <Button onClick={resetFilters}>Reset filters</Button>
+                <Button style={buttonColor(copyUrl)} onClick={(e) => {
+                  e.preventDefault()
+                  navigator.clipboard.writeText(window.location.toString())
+                  setCopyUrl(true);
+                  }}>{!copyUrl ? `Copy link` : `Copied`}</Button>
+              </div> 
+                    	            
+            </div>	            
+            <div className='found__items-block'>	            
+              <div className="items-block__sort">          	         
+              <Select 	
+                value={selectSort}	          
+                onChange={sortItem} 	
+                defaultValue ='Sorts' 	
+                options = {options}             	
+              />	
+              { (sortedSearchedAndFilteredItem !== undefined) && 
+                <div className="found__items-quantity">Found: {sortedSearchedAndFilteredItem.length}</div>
+              }    	
+              <input 	
+                value={search}	
+                onChange={e => {    
 
+                  const search = e.target.value;
+                  const key = 'search';    
 
-    
-    
-    );   
+                  if(search){
+                    searchParams.set(key, search);
+                    setSearchParams(searchParams); 
+                  }else{
+                    searchParams.delete(key);
+                    setSearchParams(searchParams); 
+                  }
+                  
+                  setSearch(e.target.value)}}	
+                placeholder='Search'	
+                className="input__found" 	
+               />    	
+              <div className="direction" onClick={() => {    
+
+                setChangeDirection(prev => !prev)
+                const key = 'direction';
+                searchParams.set(key, (!changeDirection).toString());
+                setSearchParams(searchParams);     
+
+                }}>	
+                  {changeDirection	
+                  ?	
+                  <img src={rowIcon} alt="" />	
+                  :	
+                  <img src={gridIcon} alt="" />	
+                }	
+              </div>    	
+            </div>
+            {(sortedSearchedAndFilteredItem !== undefined &&  sortedSearchedAndFilteredItem.length) 	
+            ?
+            <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]}  changeDirection = {changeDirection}/>
+            :
+            <div className='empty-found-page'>Items not found</div>
+            }
+            </div>	
+          </div>	
+        </div>	       
+      </main>	        
+      <Footer />	       
+    </div>
+  );   
 }
-
-
-{/* <div className = "container">
-        <div className="sort">          
-          <input 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder='поиск ...'
-            className="found" 
-           />
-          <hr style={{margin: '15px'}}/>           
-          <Select 
-            value={selectSort}
-            onChange={sortItem} 
-            defaultValue ='сортировка' 
-            options = {options}                        
-          />        
-        </div>
-        <Filters
-        key ={key}
-        filter={filter}
-        setFilter = {setFilter}
-        sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
-        />        
-        <hr style={{margin: '15px'}}/>
-        <div className='filters__clear-save'>
-          <Button onClick={resetFilters}>Reset filters</Button>
-          <Button>Save filters</Button>
-        </div>
-        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
-    </div> */}
