@@ -5,7 +5,7 @@ import Button from "../../components/UI/button/Button";
 import './index.css';
 import Footer from "../../components/footer";
 import Header from "../../components/header";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { products } from "../../data";
 import { useDispatch } from "react-redux";
@@ -55,6 +55,8 @@ export function Product () {
   useEffect(()=>{
     if(items.find(elem =>  elem.id === product.id)){ setAddCart(true)};
   })
+
+  const navigate = useNavigate();
 
   
   return (
@@ -110,7 +112,17 @@ export function Product () {
                   setAddCart(prev => !prev)}}>
                     {!addCart ? `Add to Cart` : `Drop from Cart`}
                 </Button>
-                <Button className="button__buy" style={{ backgroundColor: "#FF8F3C"}}>Buy Now</Button>
+                <Button className="button__buy" style={{ backgroundColor: "#FF8F3C"}} onClick={(e)=>{
+                  e.preventDefault();
+                  !addCart && addItems();
+                  setAddCart(prev => !prev)
+                  navigate('/cart', {
+                    state: {
+                      setModal: true,
+                    }
+                  });
+                  }}>
+                    Buy Now</Button>
               </div> 
             </div>
           </form>

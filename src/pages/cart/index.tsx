@@ -12,7 +12,7 @@ import Modal from '../../components/UI/modal-window/Modal';
 import Billing from '../../components/billing-card';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../redux/cart/reducer";
 
@@ -41,6 +41,16 @@ const Cart = () => {
   ]
   
   const itemsPerPages = usePagination(items, limit);
+
+  const location = useLocation();
+  
+  const modalExist = location.state.setModal;
+
+  useEffect(()=>{
+     if(modalExist){
+    setModal(modalExist);
+  }
+  },[])
 
   const allItems = items.length;
 
