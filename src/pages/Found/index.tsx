@@ -3,7 +3,7 @@ import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { Select } from '../../components/UI/select/Select';
 import { ItemList } from '../../components/ItemList';
-import { Filters , priceArray  } from '../../components/Filters';
+import { Filters } from '../../components/Filters';
 import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
@@ -233,5 +233,5 @@ export function Found() {
   <Footer />	       
 </div>
     
-    );   
+);   
 }

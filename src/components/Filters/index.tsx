@@ -7,7 +7,6 @@ import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './con
 import Checkbox from '../UI/Checkbox/Checkbox';
 import { filterProps } from './interface';  
 import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -21,29 +20,12 @@ if (brandsArr.length === 0) {
   for (let i of products){
     if (!brandsArr.includes(i.brand)) brandsArr.push(i.brand);
   }  
-} 
-export let priceArray: string[];   
+}   
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
 
-  //TODO: Добавить query параметры в фильтры. О
-
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // searchParams.get('')
-  /* const seactCheck = searchParams.getAll(key); */
-
-  /* useEffect(()=>{
-    if(priceArray){
-     
-      
-    }
-    
-  },[]) */
-
-  
  
-  
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
   const maxPriceBound = setMaxBound(setBounds.priceMin, setBounds.priceMax);
@@ -71,9 +53,7 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       }
       setSearchParams(searchParams);
     }
-    
-    priceArray = searchParams.getAll(key);
-    
+        
     setFilter({...filter, category: item , checked: check})     
   };
 
