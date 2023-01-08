@@ -7,7 +7,7 @@ interface checkBoxProps {
   id: string,
   item: string,
   value: string,
-  onChange: any,
+  onChange: (e: boolean, i:string) =>void
   sortedArray: IProduct[]
   checked: boolean
 }

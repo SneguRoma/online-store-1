@@ -6,7 +6,7 @@ interface rangeProps {
   max: number,
   step: number,
   value: number,
-  onChange: any,
+  onChange: (item: number) => void,
   className: string  
 }
 
@@ -16,7 +16,7 @@ function Range({value, onChange, min, max, step, className}: rangeProps) {
         <input className= {classes.rangebar}
           list="tickmarks"
           value={value}          
-          onChange={event => onChange(event.target.value)}
+          onChange={event => onChange(+event.target.value)}
           type="range"          
           name="price" 
           min={min} 

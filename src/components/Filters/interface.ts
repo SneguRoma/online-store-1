@@ -2,7 +2,7 @@ import { IProduct } from "../../interfaсes"
 
 export interface filterProps {  
   filter: Ifilter
-  setFilter: any
+  setFilter: React.Dispatch<React.SetStateAction<Ifilter>>
   sortedSearchedAndFilteredItem: IProduct[] 
   key: number 
 }
