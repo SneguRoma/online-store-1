@@ -530,8 +530,6 @@ export const products: IProduct[] = [
     images: [
       "https://i.dummyjson.com/data/products/29/1.jpg",
       "https://i.dummyjson.com/data/products/29/2.jpg",
-      "https://i.dummyjson.com/data/products/29/3.webp",
-      "https://i.dummyjson.com/data/products/29/4.webp",
       "https://i.dummyjson.com/data/products/29/thumbnail.webp"
     ]
   },
@@ -1030,8 +1028,6 @@ export const products: IProduct[] = [
     category: "mens-shoes",
     thumbnail: "https://i.dummyjson.com/data/products/56/thumbnail.jpg",
     images: [
-      "https://i.dummyjson.com/data/products/56/1.jpg",
-      "https://i.dummyjson.com/data/products/56/2.jpg",
       "https://i.dummyjson.com/data/products/56/3.jpg",
       "https://i.dummyjson.com/data/products/56/4.jpg",
       "https://i.dummyjson.com/data/products/56/5.jpg",

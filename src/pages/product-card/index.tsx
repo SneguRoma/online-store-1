@@ -53,7 +53,7 @@ export function Product () {
   }
 
   useEffect(()=>{
-    if(items.some(elem =>  elem === product)) setAddCart(true);
+    if(items.find(elem =>  elem.id === product.id)){ setAddCart(true)};
   })
 
   
@@ -79,7 +79,7 @@ export function Product () {
               <div className="card__pictures__thumbnails">
                 {
                   product.images.filter((e, index) =>
-                  index < product.images.length - 1).map((item, idx)=> 
+                  index < product.images.length ).map((item, idx)=> 
                     <div className="card__pictures_thumbnail" key={idx}>
                       <img src={ item } alt="" className="pictures__thumbnail" onClick={handleClick}/>
                     </div>)

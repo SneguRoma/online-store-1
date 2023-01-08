@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { isTemplateMiddle } from "typescript";
 import { IProduct } from "../../interfaсes";
 
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -28,8 +27,11 @@ const cartSlice = createSlice({
         item.quantity = item.quantity - 1;
       }
     },
+    reset: (state) => {
+      state.itemsInCart = [];
+    },
   }
 });
 
-export const { setItemInCart, deleteItemFromCart, increment, decrement } = cartSlice.actions;
+export const { setItemInCart, deleteItemFromCart, increment, decrement, reset } = cartSlice.actions;
 export default cartSlice.reducer; 

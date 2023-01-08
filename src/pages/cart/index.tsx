@@ -13,6 +13,8 @@ import Billing from '../../components/billing-card';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "../../redux/cart/reducer";
 
 interface IPromo{
   id: number, 
@@ -104,13 +106,16 @@ const Cart = () => {
 
   const [time, setTime] = useState(3);
   const [ timerActive, setTimerActive ] = useState(false);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
+  
    
   useEffect(() => {
     if (time > 0 && timerActive) {
       setTimeout(setTime, 1000, time - 1);
     } else if(time === 0) {
+      dispatch(reset());
       setTimerActive(false);
       setModal(false);
       setChangeModal(false);
@@ -230,3 +235,7 @@ const Cart = () => {
 };
 
 export default Cart;
+
+function cartClean(): any {
+  throw new Error("Function not implemented.");
+}
