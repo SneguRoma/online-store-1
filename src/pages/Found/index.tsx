@@ -63,14 +63,8 @@ export function Found() {
       filter.stockMax=selectStockMaxExist
     }
     if(selectStockMinExist){
-      filter.stockMin = selectStockMinExist
-      console.log('priceArray пришел' , priceArray)
-    }
-   /*  if(priceArray){
-      categoryArray = priceArray;
-      console.log('priceArray пришел' , priceArray)
-    }
-     */
+      filter.stockMin = selectStockMinExist      
+    }     
   },[])
   
   
@@ -105,6 +99,7 @@ export function Found() {
     brandSet = new Set();
     setSearch('');
     setSelectSort('')
+    setSearchParams()
   };
 
   
@@ -135,13 +130,15 @@ export function Found() {
       if(filter.checked) categorySet.add(filter.category);
       else categorySet.delete(filter.category);      
     } 
-    categoryArray = Array.from(categorySet)    
+    if(searchParams.getAll('category')) categoryArray = searchParams.getAll('category');
+    else categoryArray = Array.from(categorySet)    
       
     if (filter.brand !== ''){
       if(filter.checkBrand) brandSet.add(filter.brand);
       else brandSet.delete(filter.brand);
     } 
-    brandArray = Array.from(brandSet);
+    if(searchParams.getAll('brand')) brandArray = searchParams.getAll('brand');
+    else brandArray = Array.from(brandSet);
    
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);      
      
@@ -235,41 +232,6 @@ export function Found() {
   </main>	        
   <Footer />	       
 </div>
-      
-
-
-    
     
     );   
 }
-
-
-{/* <div className = "container">
-        <div className="sort">          
-          <input 
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder='поиск ...'
-            className="found" 
-           />
-          <hr style={{margin: '15px'}}/>           
-          <Select 
-            value={selectSort}
-            onChange={sortItem} 
-            defaultValue ='сортировка' 
-            options = {options}                        
-          />        
-        </div>
-        <Filters
-        key ={key}
-        filter={filter}
-        setFilter = {setFilter}
-        sortedSearchedAndFilteredItem = {sortedSearchedAndFilteredItem as IProduct[]}
-        />        
-        <hr style={{margin: '15px'}}/>
-        <div className='filters__clear-save'>
-          <Button onClick={resetFilters}>Reset filters</Button>
-          <Button>Save filters</Button>
-        </div>
-        <ItemList items = {sortedSearchedAndFilteredItem as IProduct[]} changeDirection ={ true}/>            
-    </div> */}

@@ -144,8 +144,6 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       }
       setSearchParams(searchParams);
     }
-    
-
     setFilter({...filter, priceMax: value})    
   };
 
@@ -202,8 +200,7 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
         <div className='category__title'>Category</div>
         <div className='category__content'>
           {(categoriesArr.sort().map((category: string, index: number) => 
-         (priceArray != undefined && priceArray.indexOf(category) != -1) ? 
-         
+         (searchParams.getAll('category') && searchParams.getAll('category').indexOf(category) != -1) ?          
             <Checkbox 
               key={category}
               id = {index + category}
@@ -220,8 +217,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
               onChange={checkedCategory}
               sortedArray = {sortedSearchedAndFilteredItem}
               value = {'category'/* categoriesArr[index] */}
-              checked ={ false}  />
-              ))/* .filter(item => (item.key === ) */
+              checked ={false}  />
+              ))
 
           }
         </div>
@@ -230,7 +227,16 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
         <div className='category__title'>Brand</div>
         <div className='category__content'>
           {brandsArr.sort().map((brand: string, index: number) => 
+            (searchParams.getAll('brand') && searchParams.getAll('brand').indexOf(brand) != -1) ?
             <Checkbox
+              key={brand}
+              id = {index + brand}
+              item={brandsArr[index]}              
+              onChange={checkedBrand}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'brand'/* sArr[index] */}
+              checked = {true} /> :
+              <Checkbox
               key={brand}
               id = {index + brand}
               item={brandsArr[index]}              
