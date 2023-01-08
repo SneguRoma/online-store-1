@@ -1,0 +1,8 @@
+.itemlist-found{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2%;
+  row-gap: 2em;
+}

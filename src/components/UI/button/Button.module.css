@@ -1,0 +1,37 @@
+.button{
+  position: relative;
+  text-align: center;
+  display: block;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 6px;
+  font-size: var(--font-size-b1);
+  line-height: var(--line-height-b1);
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  padding: 16px 38px;
+  min-width: 140px;
+  border: transparent;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.button:hover{
+  top: 1px;
+  filter: brightness(0.9);
+}
+
+.button__buy{
+  background-color: var(--color-warning);
+}
+
+.button:disabled{
+  background-color: var(--color-lightest);
+}
+
+@media (max-width: 1000px) {
+  .button{
+    padding: 10px 15px;
+    min-width: 120px;
+  }
+}

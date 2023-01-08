@@ -1,0 +1,147 @@
+.filters{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  overflow-y: auto;
+  font-family: var(--font-secondary);
+  row-gap: 1em;
+  margin-bottom: 1em;
+}
+
+.category__title{
+  font-size: var(--h6);
+  font-weight: 500;
+  color: var(--color-dark);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.category__content{
+  padding: 0 10px;
+  border: 1px solid #f0f0f0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  height: 150px;
+  overflow-y: scroll;
+  color: var(--color-body);
+}
+
+.category__content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.category__content::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+.category__content::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background: var(--color-lightest)
+}
+.category__content::-webkit-scrollbar-thumb:hover{
+  background: var(--color-gray)
+}
+.category__content::-webkit-scrollbar-thumb:active{
+  background: var(--color-body)
+}
+
+.range-block{
+  display: flex;
+  flex-direction: column;
+}
+
+.range__content{
+  display: flex;
+  flex-direction: column;
+}
+
+.range__title{
+  margin-bottom: 20px;
+}
+
+.range-values{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.range__bar{
+  width: 100%;
+}
+
+.range__line{
+  position: absolute; 
+  width: 100%;
+}
+
+.range-block{
+  position: relative;
+  height: 100px;
+}
+
+.range-block-name{
+  display: block;
+  padding-top: 30px;
+  margin-left: 40%;
+}
+
+.items-block__sort{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters__clear-save{
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2em;
+  margin-bottom: 2em;
+}
+
+.filters__clear-save .button{
+  padding: 10px 15px;
+}
+
+@media (max-width: 1200px) {
+  .direction{
+    margin-left: auto;
+  }
+}
+
+
+@media (max-width: 1000px) {
+  .filters{
+    row-gap: 1em;
+    margin-bottom: 1em;
+  }
+  .category__content{
+    height: 90px;
+  }
+  .category__title{
+    padding-bottom: 0.5em;
+  }
+
+  .range__title{
+    margin-bottom: 0.5em;
+  }
+
+  .filters__clear-save .button{
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  .filters__clear-save{
+    gap: 0.5em;
+  }
+}
+
+
