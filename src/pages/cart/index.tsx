@@ -44,13 +44,13 @@ const Cart = () => {
 
   const location = useLocation();
   
-  const modalExist = location.state.setModal;
-
-  useEffect(()=>{
-     if(modalExist){
-    setModal(modalExist);
+  if(location.state){
+    useEffect(()=>{
+      if(location.state.setModal){
+        setModal(true);
+      }
+    },[])
   }
-  },[])
 
   const allItems = items.length;
 
