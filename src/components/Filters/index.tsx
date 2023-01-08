@@ -20,11 +20,9 @@ if (brandsArr.length === 0) {
   for (let i of products){
     if (!brandsArr.includes(i.brand)) brandsArr.push(i.brand);
   }  
-}    
+}   
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
-
-  //TODO: Добавить query параметры в фильтры. О
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -42,8 +40,10 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
     if(check){
       searchParams.append(key, item);
       setSearchParams(searchParams);
+      console.log('setSearchParams',searchParams.getAll(key),'categoriesArr', categoriesArr)
     }else{
       const values = searchParams.getAll(key);
+      console.log('values',values)
       if (values.length) {
         searchParams.delete(key);
         for (const value of values) {
@@ -54,8 +54,7 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       }
       setSearchParams(searchParams);
     }
-    
-
+        
     setFilter({...filter, category: item , checked: check})     
   };
 
@@ -126,8 +125,6 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       }
       setSearchParams(searchParams);
     }
-    
-
     setFilter({...filter, priceMax: value})    
   };
 
@@ -183,14 +180,27 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       <div className='filters__category' >
         <div className='category__title'>Category</div>
         <div className='category__content'>
-          {categoriesArr.sort().map((category: string, index: number) => 
+          {(categoriesArr.sort().map((category: string, index: number) => 
+         (searchParams.getAll('category') && searchParams.getAll('category').indexOf(category) != -1) ?          
             <Checkbox 
+              key={category}
+              id = {index + category}
+              item={categoriesArr[index]}
+              onChange={checkedCategory}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'category'/* categoriesArr[index] */} 
+              checked = {true}
+              /> : 
+              <Checkbox 
               key={category}
               id = {index + category}
               item={categoriesArr[index]}                         
               onChange={checkedCategory}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'category'/* categoriesArr[index] */} />)
+              value = {'category'/* categoriesArr[index] */}
+              checked ={false}  />
+              ))
+
           }
         </div>
       </div>
@@ -198,13 +208,23 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
         <div className='category__title'>Brand</div>
         <div className='category__content'>
           {brandsArr.sort().map((brand: string, index: number) => 
+            (searchParams.getAll('brand') && searchParams.getAll('brand').indexOf(brand) != -1) ?
             <Checkbox
               key={brand}
               id = {index + brand}
               item={brandsArr[index]}              
               onChange={checkedBrand}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'brand'/* sArr[index] */} />)
+              value = {'brand'/* sArr[index] */}
+              checked = {true} /> :
+              <Checkbox
+              key={brand}
+              id = {index + brand}
+              item={brandsArr[index]}              
+              onChange={checkedBrand}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'brand'/* sArr[index] */}
+              checked = {false} />)
           }
         </div>
       </div>

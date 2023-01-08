@@ -34,6 +34,11 @@ export function Found() {
   const directionExist = searchParams.get('direction');
   const seactExist = searchParams.get('search');
   const selectSortExist = searchParams.get('sort');
+  const selectPriceMaxExist = Number(searchParams.get('priceMax'))
+  const selectPriceMinExist = Number(searchParams.get('priceMin'))
+  const selectStockMaxExist = Number(searchParams.get('stockMax'))
+  const selectStockMinExist = Number(searchParams.get('stockMin'))
+   
 
   useEffect(()=>{
     if(directionExist){
@@ -45,7 +50,23 @@ export function Found() {
     if(selectSortExist){
       setSelectSort(selectSortExist)
     }
-  })
+    if(selectPriceMinExist || selectPriceMaxExist){
+      setFilter({...filter,priceMax: selectPriceMaxExist, priceMin: selectPriceMinExist})
+    }
+    if(selectPriceMaxExist && !selectPriceMinExist){
+      setFilter({...filter, priceMax: selectPriceMaxExist})
+    }
+    if(selectPriceMinExist && !selectPriceMaxExist){
+      setFilter({...filter, priceMin: selectPriceMinExist})
+    }    
+    if(selectStockMaxExist){
+      filter.stockMax=selectStockMaxExist
+    }
+    if(selectStockMinExist){
+      filter.stockMin = selectStockMinExist      
+    }     
+  },[])
+  
   
   const [maxminprice, setmaxminprice] = useState(setFilterAndSort(products));
   const [filter, setFilter] = useState({
@@ -79,6 +100,7 @@ export function Found() {
     brandSet = new Set();
     setSearch('');
     setSelectSort('')
+    setSearchParams()
   };
 
   
@@ -109,12 +131,15 @@ export function Found() {
       if(filter.checked) categorySet.add(filter.category);
       else categorySet.delete(filter.category);      
     } 
-    categoryArray = Array.from(categorySet)     
+    if(searchParams.getAll('category')) categoryArray = searchParams.getAll('category');
+    else categoryArray = Array.from(categorySet)    
+      
     if (filter.brand !== ''){
       if(filter.checkBrand) brandSet.add(filter.brand);
       else brandSet.delete(filter.brand);
     } 
-    brandArray = Array.from(brandSet);
+    if(searchParams.getAll('brand')) brandArray = searchParams.getAll('brand');
+    else brandArray = Array.from(brandSet);
    
     const sortedSearchedAndFilteredItems = checkedCatAndBrand(sortedAndSearchedItem, categoryArray, brandArray);      
      
