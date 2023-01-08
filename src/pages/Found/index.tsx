@@ -3,7 +3,7 @@ import { products } from '../../data';
 import { IProduct } from '../../interfaсes';
 import { Select } from '../../components/UI/select/Select';
 import { ItemList } from '../../components/ItemList';
-import { Filters } from '../../components/Filters';
+import { Filters , priceArray  } from '../../components/Filters';
 import './index.css';
 import { options } from './constants';
 import { checkedCatAndBrand, checkPriceFilter, checkStockFilter, sortItems } from './functions';
@@ -34,6 +34,11 @@ export function Found() {
   const directionExist = searchParams.get('direction');
   const seactExist = searchParams.get('search');
   const selectSortExist = searchParams.get('sort');
+  const selectPriceMaxExist = Number(searchParams.get('priceMax'))
+  const selectPriceMinExist = Number(searchParams.get('priceMin'))
+  const selectStockMaxExist = Number(searchParams.get('stockMax'))
+  const selectStockMinExist = Number(searchParams.get('stockMin'))
+   
 
   useEffect(()=>{
     if(directionExist){
@@ -45,7 +50,29 @@ export function Found() {
     if(selectSortExist){
       setSelectSort(selectSortExist)
     }
-  })
+    if(selectPriceMinExist || selectPriceMaxExist){
+      setFilter({...filter,priceMax: selectPriceMaxExist, priceMin: selectPriceMinExist})
+    }
+    if(selectPriceMaxExist && !selectPriceMinExist){
+      setFilter({...filter, priceMax: selectPriceMaxExist})
+    }
+    if(selectPriceMinExist && !selectPriceMaxExist){
+      setFilter({...filter, priceMin: selectPriceMinExist})
+    }    
+    if(selectStockMaxExist){
+      filter.stockMax=selectStockMaxExist
+    }
+    if(selectStockMinExist){
+      filter.stockMin = selectStockMinExist
+      console.log('priceArray пришел' , priceArray)
+    }
+   /*  if(priceArray){
+      categoryArray = priceArray;
+      console.log('priceArray пришел' , priceArray)
+    }
+     */
+  },[])
+  
   
   const [maxminprice, setmaxminprice] = useState(setFilterAndSort(products));
   const [filter, setFilter] = useState({
@@ -108,7 +135,8 @@ export function Found() {
       if(filter.checked) categorySet.add(filter.category);
       else categorySet.delete(filter.category);      
     } 
-    categoryArray = Array.from(categorySet)     
+    categoryArray = Array.from(categorySet)    
+      
     if (filter.brand !== ''){
       if(filter.checkBrand) brandSet.add(filter.brand);
       else brandSet.delete(filter.brand);

@@ -7,6 +7,7 @@ import { priceMin, priceMax, priceSet, stockMin, stockMax, stockSet} from './con
 import Checkbox from '../UI/Checkbox/Checkbox';
 import { filterProps } from './interface';  
 import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 let categoriesArr: string[] = [];
 if (categoriesArr.length === 0) {
@@ -20,7 +21,8 @@ if (brandsArr.length === 0) {
   for (let i of products){
     if (!brandsArr.includes(i.brand)) brandsArr.push(i.brand);
   }  
-}    
+} 
+export let priceArray: string[];   
 
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
 
@@ -29,6 +31,15 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
   const [searchParams, setSearchParams] = useSearchParams();
 
   // searchParams.get('')
+  /* const seactCheck = searchParams.getAll(key); */
+
+  /* useEffect(()=>{
+    if(priceArray){
+     
+      
+    }
+    
+  },[]) */
 
   
  
@@ -46,8 +57,10 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
     if(check){
       searchParams.append(key, item);
       setSearchParams(searchParams);
+      console.log('setSearchParams',searchParams.getAll(key),'categoriesArr', categoriesArr)
     }else{
       const values = searchParams.getAll(key);
+      console.log('values',values)
       if (values.length) {
         searchParams.delete(key);
         for (const value of values) {
@@ -59,7 +72,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       setSearchParams(searchParams);
     }
     
-
+    priceArray = searchParams.getAll(key);
+    
     setFilter({...filter, category: item , checked: check})     
   };
 
@@ -187,14 +201,28 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
       <div className='filters__category' >
         <div className='category__title'>Category</div>
         <div className='category__content'>
-          {categoriesArr.sort().map((category: string, index: number) => 
+          {(categoriesArr.sort().map((category: string, index: number) => 
+         (priceArray != undefined && priceArray.indexOf(category) != -1) ? 
+         
             <Checkbox 
+              key={category}
+              id = {index + category}
+              item={categoriesArr[index]}
+              onChange={checkedCategory}
+              sortedArray = {sortedSearchedAndFilteredItem}
+              value = {'category'/* categoriesArr[index] */} 
+              checked = {true}
+              /> : 
+              <Checkbox 
               key={category}
               id = {index + category}
               item={categoriesArr[index]}                         
               onChange={checkedCategory}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'category'/* categoriesArr[index] */} />)
+              value = {'category'/* categoriesArr[index] */}
+              checked ={ false}  />
+              ))/* .filter(item => (item.key === ) */
+
           }
         </div>
       </div>
@@ -208,7 +236,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
               item={brandsArr[index]}              
               onChange={checkedBrand}
               sortedArray = {sortedSearchedAndFilteredItem}
-              value = {'brand'/* sArr[index] */} />)
+              value = {'brand'/* sArr[index] */}
+              checked = {false} />)
           }
         </div>
       </div>
