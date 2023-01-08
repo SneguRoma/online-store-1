@@ -25,7 +25,8 @@ if (brandsArr.length === 0) {
 export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filterProps)  => {
 
   const [searchParams, setSearchParams] = useSearchParams();
- 
+
+  
   const setBounds = setFilterAndSort(sortedSearchedAndFilteredItem, filter);
   const minPriceBound = setMinBound(setBounds.priceMin, setBounds.priceMax);
   const maxPriceBound = setMaxBound(setBounds.priceMin, setBounds.priceMax);
