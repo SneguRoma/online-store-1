@@ -120,7 +120,10 @@ export function Found() {
       item.brand.toLowerCase().includes(search) || 
       item.category.toLowerCase().includes(search)||
       item.price.toString().toLowerCase().includes(search)||
-      item.rating.toString().toLowerCase().includes(search))
+      item.rating.toString().toLowerCase().includes(search)||
+      item.stock.toString().toLowerCase().includes(search) ||
+      item.description.toLowerCase().includes(search) ||
+      item.discountPercentage.toString().toLowerCase().includes(search))
     }
     
   }, [search, sortedItem,resetBounds, key]);
