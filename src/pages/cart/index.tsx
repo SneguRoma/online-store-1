@@ -12,7 +12,7 @@ import Modal from '../../components/UI/modal-window/Modal';
 import Billing from '../../components/billing-card';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../redux/cart/reducer";
 
@@ -25,10 +25,9 @@ interface IPromo{
 
 const Cart = () => {
   
-  // TODO: Доделать добавление количества товара
-
   const items = useAppSelector((state) => state.cart.itemsInCart);
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState(5);
   const [promo, setPromo] = useState('');
   const [modal, setModal] = useState(false);
@@ -62,6 +61,19 @@ const Cart = () => {
 
   const [subtotalClass, setsubtotalClass] = useState('');
 
+  const sortCartPages = searchParams.get('sortCartPages');
+  const numberOfCartPages = searchParams.get('cartPages');
+
+  useEffect(()=>{
+    if(sortCartPages){
+      setLimit(Number(sortCartPages))
+    }
+    if(numberOfCartPages){
+      setPage(Number(numberOfCartPages));
+    }else{
+      
+    }
+  },[])
 
   const subtotal = items.reduce((sum, e) => {
     if(e.quantity){
@@ -78,10 +90,18 @@ const Cart = () => {
   } , 0);
 
   const sortItems = (quanItems:string | number) => {
-    if(typeof quanItems === 'string')
-    setLimit(Number(quanItems));
+ 
+    if(typeof quanItems === 'string'){
+      setLimit(Number(quanItems));
+      searchParams.set('sortCartPages', quanItems);
+    }
+    setSearchParams(searchParams);
     setPage(1);
+    searchParams.set('cartPages', (1).toString());
+    setSearchParams(searchParams);
   }
+
+  
 
   function submitForm (e: React.SyntheticEvent) {
     e.preventDefault();

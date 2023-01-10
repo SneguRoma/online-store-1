@@ -40,10 +40,8 @@ export const Filters = ({filter, setFilter, sortedSearchedAndFilteredItem}: filt
     if(check){
       searchParams.append(key, item);
       setSearchParams(searchParams);
-      console.log('setSearchParams',searchParams.getAll(key),'categoriesArr', categoriesArr)
     }else{
       const values = searchParams.getAll(key);
-      console.log('values',values)
       if (values.length) {
         searchParams.delete(key);
         for (const value of values) {

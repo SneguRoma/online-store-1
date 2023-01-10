@@ -2,6 +2,7 @@ import React from 'react';
 import CartItem from '../cart-item';
 import './index.css';
 import { IProduct } from '../../interfaсes';
+import { useSearchParams } from 'react-router-dom';
 
 interface ICartList {
   elements: IProduct[], 
@@ -14,8 +15,13 @@ interface ICartList {
 const CartList = ({elements, pages, setPage, page, setFullCart}: ICartList) => {
   let i = pages + 1;
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const key = 'cartPages';
+
   if(!elements && page > 1){
     setPage(page - 1);
+    searchParams.set(key, (page - 1).toString());
+    setSearchParams(searchParams);
   }else if(!elements){
     setFullCart(false);
   }
