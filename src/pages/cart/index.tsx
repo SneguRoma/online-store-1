@@ -161,6 +161,8 @@ const Cart = () => {
     }
   }, [changeModal])
 
+  const [showPromo, setShowPromo] = useState(false);
+
   return(
     <div className="body">
       <Header />
@@ -222,12 +224,14 @@ const Cart = () => {
                   </div>
                   <div className='promo cart__line'>
                     <div className='get-promo'>
+                      <span className="get-promo__expample" style = {{opacity: `${(promo) ? 1 : 0}`}}>'rs' or 'epm'</span>
                       <span className='cart__text'>Promo Code</span>
                       <Input 
                       type='text' 
                       placeholder='Enter Code'
                       value={promo}
-                      onChange={e => setPromo(e.target.value.toLowerCase()) }
+                      onChange={e => setPromo(e.target.value.toLowerCase() ) 
+                      }
                       />  
                     </div>     
                     { getPromo &&

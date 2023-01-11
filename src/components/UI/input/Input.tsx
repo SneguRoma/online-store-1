@@ -4,7 +4,7 @@ import classes from './Input.module.css'
 
 const Input = (props:DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>):JSX.Element =>{
   return (
-    <input className={classes.input} {...props}/>
+    <input className={`input ${classes.input}`} {...props}/>
   );
 };
 

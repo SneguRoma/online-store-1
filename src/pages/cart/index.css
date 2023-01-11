@@ -107,11 +107,22 @@
 }
 
 .get-promo{
+  position: relative;
   display: flex;
   flex-direction: row;
   width: 100%;
   align-items: center;
   column-gap: 4em;
+}
+
+.get-promo__expample{
+  opacity: 1;
+  position: absolute;
+  top: -16px;
+  right: 15px;
+  font-size: 14px;
+  color: var(--color-body);
+  transition: all 0.3s;
 }
 
 .promo__new-code{
