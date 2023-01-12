@@ -107,7 +107,7 @@ const Billing = ({setChangeModal}:IBilling) => {
   const [expirationDirty, setExpirationDirty]  = useState(false);
   const [expirationError, setExpirationError] = useState('This field cannot be empty');
   const expirationHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const regExp = new RegExp(/^[0-9]{2}\/[0-9]{2}$/);
+    const regExp = new RegExp(/^(([0]{1}[1-9]{1})|([1]{1}[0-2]{1}))\/[0-9]{2}$/);
 
     if(Number(e.target.value) > 12){
       setExpirationError('Incorrect expiration');
