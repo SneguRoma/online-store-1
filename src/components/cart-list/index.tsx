@@ -34,7 +34,7 @@ const CartList = ({elements, pages, setPage, page, setFullCart}: ICartList) => {
         elements.map((item: IProduct) => 
        <CartItem 
        product={item} 
-       key={item.id} 
+       key={i} 
        id={i++} 
        />
       )
